@@ -1,0 +1,387 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		602104B91F14F706001F821A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602104B81F14F706001F821A /* AppDelegate.swift */; };
+		602104BB1F14F706001F821A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602104BA1F14F706001F821A /* ViewController.swift */; };
+		602104BE1F14F706001F821A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602104BC1F14F706001F821A /* Main.storyboard */; };
+		602104C01F14F706001F821A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 602104BF1F14F706001F821A /* Assets.xcassets */; };
+		602104C31F14F706001F821A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602104C11F14F706001F821A /* LaunchScreen.storyboard */; };
+		FC712E6BAB314202B81E56D6 /* Pods_PDFKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F03FF245906972A9370D20C /* Pods_PDFKit_iOS.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2F03FF245906972A9370D20C /* Pods_PDFKit_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PDFKit_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4987EF7EA2F77204A15390A3 /* Pods-PDFKit-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDFKit-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PDFKit-iOS/Pods-PDFKit-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		602104B51F14F706001F821A /* PDFKit-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PDFKit-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		602104B81F14F706001F821A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		602104BA1F14F706001F821A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		602104BD1F14F706001F821A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		602104BF1F14F706001F821A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		602104C21F14F706001F821A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		602104C41F14F706001F821A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3BDD6A0202FF516AEFB2551 /* Pods-PDFKit-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDFKit-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PDFKit-iOS/Pods-PDFKit-iOS.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		602104B21F14F706001F821A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC712E6BAB314202B81E56D6 /* Pods_PDFKit_iOS.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		37C70C91FDD1D23CBB5C2B3F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2F03FF245906972A9370D20C /* Pods_PDFKit_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		602104AC1F14F706001F821A = {
+			isa = PBXGroup;
+			children = (
+				602104B71F14F706001F821A /* PDFKit-iOS */,
+				602104B61F14F706001F821A /* Products */,
+				B3ADF0F80AEB43D170D53872 /* Pods */,
+				37C70C91FDD1D23CBB5C2B3F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		602104B61F14F706001F821A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				602104B51F14F706001F821A /* PDFKit-iOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		602104B71F14F706001F821A /* PDFKit-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				602104B81F14F706001F821A /* AppDelegate.swift */,
+				602104BA1F14F706001F821A /* ViewController.swift */,
+				602104BC1F14F706001F821A /* Main.storyboard */,
+				602104BF1F14F706001F821A /* Assets.xcassets */,
+				602104C11F14F706001F821A /* LaunchScreen.storyboard */,
+				602104C41F14F706001F821A /* Info.plist */,
+			);
+			path = "PDFKit-iOS";
+			sourceTree = "<group>";
+		};
+		B3ADF0F80AEB43D170D53872 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4987EF7EA2F77204A15390A3 /* Pods-PDFKit-iOS.debug.xcconfig */,
+				E3BDD6A0202FF516AEFB2551 /* Pods-PDFKit-iOS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		602104B41F14F706001F821A /* PDFKit-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 602104C71F14F706001F821A /* Build configuration list for PBXNativeTarget "PDFKit-iOS" */;
+			buildPhases = (
+				E01BF239ED78E5CAC915CAF7 /* [CP] Check Pods Manifest.lock */,
+				602104B11F14F706001F821A /* Sources */,
+				602104B21F14F706001F821A /* Frameworks */,
+				602104B31F14F706001F821A /* Resources */,
+				7C27EF167EF2BB141B6E6E4E /* [CP] Embed Pods Frameworks */,
+				B6525441D3B22B7C113E8075 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PDFKit-iOS";
+			productName = "PDFKit-iOS";
+			productReference = 602104B51F14F706001F821A /* PDFKit-iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		602104AD1F14F706001F821A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = "Solution Analysts";
+				TargetAttributes = {
+					602104B41F14F706001F821A = {
+						CreatedOnToolsVersion = 8.3.2;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 602104B01F14F706001F821A /* Build configuration list for PBXProject "PDFKit-iOS" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 602104AC1F14F706001F821A;
+			productRefGroup = 602104B61F14F706001F821A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				602104B41F14F706001F821A /* PDFKit-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		602104B31F14F706001F821A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				602104C31F14F706001F821A /* LaunchScreen.storyboard in Resources */,
+				602104C01F14F706001F821A /* Assets.xcassets in Resources */,
+				602104BE1F14F706001F821A /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7C27EF167EF2BB141B6E6E4E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PDFKit-iOS/Pods-PDFKit-iOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B6525441D3B22B7C113E8075 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PDFKit-iOS/Pods-PDFKit-iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E01BF239ED78E5CAC915CAF7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		602104B11F14F706001F821A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				602104BB1F14F706001F821A /* ViewController.swift in Sources */,
+				602104B91F14F706001F821A /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		602104BC1F14F706001F821A /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				602104BD1F14F706001F821A /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		602104C11F14F706001F821A /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				602104C21F14F706001F821A /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		602104C51F14F706001F821A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		602104C61F14F706001F821A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		602104C81F14F706001F821A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4987EF7EA2F77204A15390A3 /* Pods-PDFKit-iOS.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "PDFKit-iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.demo.PDFKit-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		602104C91F14F706001F821A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3BDD6A0202FF516AEFB2551 /* Pods-PDFKit-iOS.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = "PDFKit-iOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.demo.PDFKit-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		602104B01F14F706001F821A /* Build configuration list for PBXProject "PDFKit-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				602104C51F14F706001F821A /* Debug */,
+				602104C61F14F706001F821A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		602104C71F14F706001F821A /* Build configuration list for PBXNativeTarget "PDFKit-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				602104C81F14F706001F821A /* Debug */,
+				602104C91F14F706001F821A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 602104AD1F14F706001F821A /* Project object */;
+}
