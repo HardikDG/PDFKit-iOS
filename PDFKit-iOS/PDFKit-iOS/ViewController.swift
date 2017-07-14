@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EZSwiftExtensions
 
 class ViewController: UIViewController {
 
@@ -45,10 +46,11 @@ class ViewController: UIViewController {
     }
 
     func loadPDFInView() {
-        pdfScrollView = TiledPDFScrollView(frame: self.pdfView.frame)
+        pdfScrollView = TiledPDFScrollView(frame: self.pdfView.bounds)
         self.pdfView.addSubview(pdfScrollView)
-        page = pdfFile.page(at: 2)
+        page = pdfFile.page(at: 1)
         pdfScrollView.setPDFPage(page)
+        page = pdfFile.page(at: 5)
     }
 }
 

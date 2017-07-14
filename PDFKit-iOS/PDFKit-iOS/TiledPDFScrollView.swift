@@ -171,6 +171,9 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
 
         // Add the new TiledPDFView to the PDFScrollView.
         addSubview(newTiledPDFView)
+        if (tiledPDFView != nil) {
+            tiledPDFView.removeFromSuperview()
+        }
         tiledPDFView = newTiledPDFView
     }
     
