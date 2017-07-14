@@ -12,7 +12,7 @@ import SnapKit
 
 class ViewController: UIViewController {
 
-    @IBOutlet weak var pdfView: PDFEditorView!
+    @IBOutlet weak var pdfView: PDFDocView!
 
     override func viewDidLoad() {
         super.viewDidLoad()

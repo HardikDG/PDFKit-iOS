@@ -1,5 +1,5 @@
 //
-//  PDFEditorView.swift
+//  PDFDocView.swift
 //  PDFKit-iOS
 //
 //  Created by Parth on 14/07/17.
@@ -8,14 +8,19 @@
 
 import UIKit
 
-class PDFEditorView: UIView {
+class PDFDocView: UIView {
 
     var pdfFile: CGPDFDocument!
     var numberOfPages: Int = 0
     var pdfScrollView: TiledPDFScrollView!
     var page: CGPDFPage!
     var myScale: CGFloat = 0
-    var pageNumber: Int = 1
+    var currentPageNumber: Int = 1 {
+        didSet {
+            page = pdfFile.page(at: currentPageNumber)
+            pdfScrollView.setPDFPage(page)
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,7 +35,6 @@ class PDFEditorView: UIView {
 
     func configureView() {
         loadPDFFromBundle()
-        loadPDFInView()
     }
 
     func loadPDFFromBundle() {
@@ -39,6 +43,7 @@ class PDFEditorView: UIView {
             pdfFile = CGPDFDocument(documentUrl)
             numberOfPages = pdfFile.numberOfPages as Int
             print("PDF Loaded with \(numberOfPages) pages")
+            loadPDFInView()
         } else {
             print("Error Loading PDF file")
         }
@@ -47,7 +52,6 @@ class PDFEditorView: UIView {
     func loadPDFInView() {
         pdfScrollView = TiledPDFScrollView(frame: self.bounds)
         self.addSubview(pdfScrollView)
-        page = pdfFile.page(at: pageNumber)
-        pdfScrollView.setPDFPage(page)
+        currentPageNumber = 1
     }
 }
