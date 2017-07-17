@@ -11,6 +11,13 @@ import EZSwiftExtensions
 import SnapKit
 import SocketIO
 
+enum SocketEvents {
+    static let addAnnotation = "add annotations"
+    static let clearAnnotation = "clear annotations"
+    static let editAnnotation = "edit annotations"
+    static let deleteAnnotation = "delete annotations"
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var pdfView: PDFDocView!
@@ -35,22 +42,34 @@ class ViewController: UIViewController {
             print("socket connected")
         }
 
-        socket.on("add annotations") { data, ack in
-            if let safeData = data as? Any {
-                print("DATA====\(safeData)")
-            }
+        socket.on(SocketEvents.addAnnotation) { data, ack in
+            self.pdfView.addAnnotation(data: data)
         }
 
-        socket.on("currentAmount") {data, ack in
-            if let cur = data[0] as? Double {
-                socket.emitWithAck("canUpdate", cur).timingOut(after: 0) {data in
-                    socket.emit("update", ["amount": cur + 2.50])
-                }
-                
-                ack.with("Got your currentAmount", "dude")
-            }
+        socket.on(SocketEvents.clearAnnotation) { data, ack in
+            self.pdfView.clearAnnotations(data: data)
+
         }
-        
+
+        socket.on(SocketEvents.editAnnotation) { data, ack in
+            self.pdfView.editAnnotation(data: data)
+
+        }
+
+        socket.on(SocketEvents.deleteAnnotation) { data, ack in
+            self.pdfView.deleteAnnotation(data: data)
+
+        }
+//        socket.on("currentAmount") {data, ack in
+//            if let cur = data[0] as? Double {
+//                socket.emitWithAck("canUpdate", cur).timingOut(after: 0) {data in
+//                    socket.emit("update", ["amount": cur + 2.50])
+//                }
+//                
+//                ack.with("Got your currentAmount", "dude")
+//            }
+//        }
+
         socket.connect()
     }
 }
