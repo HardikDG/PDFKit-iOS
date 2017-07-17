@@ -22,6 +22,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var pdfView: PDFDocView!
     let socketURL = "http://192.168.1.76:8484/"
+    var socket: SocketIOClient!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,39 +37,41 @@ class ViewController: UIViewController {
     }
 
     func configureSocketIO() {
-        let socket = SocketIOClient(socketURL: URL(string: socketURL)!, config: [.log(true), .compress])
+        socket = SocketIOClient(socketURL: URL(string: socketURL)!, config: [.log(true), .compress])
 
         socket.on(clientEvent: .connect) {data, ack in
             print("socket connected")
+            self.pdfView.socket = self.socket
         }
 
         socket.on(SocketEvents.addAnnotation) { data, ack in
-            self.pdfView.addAnnotation(data: data)
+            self.pdfView.addAnnotationSocketEvent(data: data)
         }
 
         socket.on(SocketEvents.clearAnnotation) { data, ack in
-            self.pdfView.clearAnnotations(data: data)
+            self.pdfView.clearAnnotationsSocketEvent(data: data)
 
         }
 
         socket.on(SocketEvents.editAnnotation) { data, ack in
-            self.pdfView.editAnnotation(data: data)
+            self.pdfView.editAnnotationSocketEvent(data: data)
 
         }
 
         socket.on(SocketEvents.deleteAnnotation) { data, ack in
-            self.pdfView.deleteAnnotation(data: data)
+            self.pdfView.deleteAnnotationSocketEvent(data: data)
 
         }
-//        socket.on("currentAmount") {data, ack in
-//            if let cur = data[0] as? Double {
-//                socket.emitWithAck("canUpdate", cur).timingOut(after: 0) {data in
-//                    socket.emit("update", ["amount": cur + 2.50])
-//                }
-//                
-//                ack.with("Got your currentAmount", "dude")
-//            }
-//        }
+
+        socket.on("currentAmount") {data, ack in
+            if let cur = data[0] as? Double {
+                self.socket.emitWithAck("canUpdate", cur).timingOut(after: 0) {data in
+                    self.socket.emit("update", ["amount": cur + 2.50])
+                }
+                
+                ack.with("Got your currentAmount", "dude")
+            }
+        }
 
         socket.connect()
     }

@@ -9,6 +9,7 @@
 import UIKit
 import Material
 import ZDStickerView
+import SocketIO
 
 class PDFDocView: UIView, UIScrollViewDelegate {
 
@@ -21,6 +22,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     fileprivate var notesFABMenuItem: FABMenuItem!
     fileprivate var remindersFABMenuItem: FABMenuItem!
 
+    var socket: SocketIOClient?
     var pdfFile: CGPDFDocument!
     var numberOfPages: Int = 0
     var pdfScrollView: TiledPDFScrollView!
@@ -37,6 +39,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     }
     var pageControlView: UIView!
     var currentPageLabel: UILabel!
+    
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -202,25 +205,43 @@ extension PDFDocView {
 extension PDFDocView {
     // Socket Event Updates 
 
-    func addAnnotation(data: [Any]) {
+    func addAnnotationSocketEvent(data: [Any]) {
         print("=======ADD ANNOTATION CALLED=======")
     }
 
-    func deleteAnnotation(data: [Any]) {
+    func emitAddAnnotationEvent() {
+
+    }
+
+    func deleteAnnotationSocketEvent(data: [Any]) {
         print("=======DELETE ANNOTATION CALLED=======")
 
     }
 
-    func clearAnnotations(data: [Any]) {
+    func emitDeleteAnnotationEvent() {
+
+    }
+
+    func clearAnnotationsSocketEvent(data: [Any]) {
         print("=======CLEAR ANNOTATION CALLED=======")
 
     }
 
-    func editAnnotation(data: [Any]) {
+    func emitClearAnnotationEvent() {
+
+    }
+
+    func editAnnotationSocketEvent(data: [Any]) {
         print("=======EDIT ANNOTATION CALLED=======")
 
     }
+
+    func emitEditAnnotationEvent() {
+
+    }
 }
+
+
 
 extension PDFDocView: ZDStickerViewDelegate {
 
