@@ -39,7 +39,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     }
     var pageControlView: UIView!
     var currentPageLabel: UILabel!
-    
+    var annotationArray = [PDFAnnotation]()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -154,12 +154,12 @@ extension PDFDocView {
 
     fileprivate func prepareRemindersFABMenuItem() {
         addSquareFABMenuItem = FABMenuItem()
-        addSquareFABMenuItem.title = "Add Square"
+        addSquareFABMenuItem.title = "Add Circle"
         addSquareFABMenuItem.fabButton.image = Icon.cm.pen
         addSquareFABMenuItem.fabButton.tintColor = .white
         addSquareFABMenuItem.fabButton.pulseColor = .white
         addSquareFABMenuItem.fabButton.backgroundColor = Color.blue.base
-        addSquareFABMenuItem.fabButton.addTarget(self, action: #selector(addSquareFABMenuItem(button:)), for: .touchUpInside)
+        addSquareFABMenuItem.fabButton.addTarget(self, action: #selector(addCircleFABMenuItem(button:)), for: .touchUpInside)
     }
 
 
@@ -173,10 +173,18 @@ extension PDFDocView {
     }
 
     @objc
-    fileprivate func addSquareFABMenuItem(button: UIButton) {
+    fileprivate func addCircleFABMenuItem(button: UIButton) {
         print("remindersFABMenuItem")
-        let square = addSquare()
-        emitAddAnnotationEvent(annotation: square)
+        let circle = addCircle(xPos: 50, yPos: 75, radius: 50)
+        annotationArray.append(PDFAnnotation(type: "fillcircle",
+                                             color: "blue",
+                                             x: circle.frame.x,
+                                             y: circle.frame.y,
+                                             radius: circle.frame.height/2,
+                                             classType: "Annotation",
+                                             uuid: UUID().uuidString,
+                                             page: 1))
+        emitAddAnnotationEvent(annotation: circle)
         fabMenu.close()
         fabMenu.fabButton?.animate(Motion.rotation(angle: 0))
 
@@ -186,22 +194,24 @@ extension PDFDocView {
 
 extension PDFDocView {
 
-    func addSquare() -> UIView {
-        let contentView = UIView(frame: CGRect(x: 50, y: 50, w: 120, h: 120))
-        contentView.addSubview(UIImageView(image: Icon.cm.check))
-        contentView.backgroundColor = .red
-        let resizableCircle = ZDStickerView(frame: CGRect(x: 50, y: 50, w: 150, h: 150))
+    @discardableResult
+    func addCircle(xPos: CGFloat, yPos: CGFloat, radius: CGFloat) -> UIView {
+        let contentView = UIView(frame: CGRect(x: 0, y: 0, w: radius * 2, h: radius * 2))
+        contentView.backgroundColor = .blue
+        contentView.layer.cornerRadius = radius
+        contentView.layer.masksToBounds = true
+        let resizableCircle = ZDStickerView(frame: CGRect(x: xPos, y: yPos, w: radius * 2, h: radius * 2))
         resizableCircle.tag = 10
         resizableCircle.contentView = contentView
         resizableCircle.stickerViewDelegate = self
         resizableCircle.preventsPositionOutsideSuperview = true
+        resizableCircle.setButton(ZDSTICKERVIEW_BUTTON_DEL, image: Icon.close)
         resizableCircle.showEditingHandles()
         pdfScrollView.tiledPDFView.addSubview(resizableCircle)
         return contentView
     }
 
     func addText() {
-
     }
 }
 
@@ -210,6 +220,20 @@ extension PDFDocView {
 
     func addAnnotationSocketEvent(data: [Any]) {
         print("=======ADD ANNOTATION CALLED=======")
+        if let circleData = data.first as? [String : Any] {
+            let xPos = circleData["cx"] as! CGFloat
+            let yPos = circleData["cy"] as! CGFloat
+            let radius = circleData["r"] as! CGFloat
+            addCircle(xPos: xPos, yPos: yPos, radius: radius)
+            annotationArray.append(PDFAnnotation(type: circleData["type"] as! String,
+                                                 color: circleData["color"] as! String,
+                                                 x: circleData["cx"] as! CGFloat,
+                                                 y: circleData["cy"] as! CGFloat,
+                                                 radius: circleData["r"] as! CGFloat,
+                                                 classType: circleData["class"] as! String,
+                                                 uuid: circleData["uuid"] as! String,
+                                                 page: circleData["page"] as! Int))
+        }
     }
 
     func emitAddAnnotationEvent(annotation: UIView) {
