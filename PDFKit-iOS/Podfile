@@ -6,6 +6,7 @@ target 'PDFKit-iOS' do
   use_frameworks!
   pod 'EZSwiftExtensions', '~> 1.10'
   pod 'SnapKit', '~> 3.2'
-  # Pods for PDFKit-iOS
-
+  pod 'Material', '~> 2.6'
+  pod 'ZDStickerView', '~> 0.1'
+  pod 'Socket.IO-Client-Swift', '~> 10.2'
 end

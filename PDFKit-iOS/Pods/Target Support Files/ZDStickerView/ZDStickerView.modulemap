@@ -1,0 +1,6 @@
+framework module ZDStickerView {
+  umbrella header "ZDStickerView-umbrella.h"
+
+  export *
+  module * { export * }
+}
