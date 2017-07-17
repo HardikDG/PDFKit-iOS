@@ -19,8 +19,8 @@ class PDFDocView: UIView, UIScrollViewDelegate {
 
     fileprivate var fabButton: FABButton!
     fileprivate var fabMenu: FABMenu!
-    fileprivate var notesFABMenuItem: FABMenuItem!
-    fileprivate var remindersFABMenuItem: FABMenuItem!
+    fileprivate var clearAnnotationFABMenuItem: FABMenuItem!
+    fileprivate var addSquareFABMenuItem: FABMenuItem!
 
     var socket: SocketIOClient?
     var pdfFile: CGPDFDocument!
@@ -56,6 +56,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         loadPDFFromBundle()
         prepareFABButton()
         prepareFABMenu()
+//        let uuid = UUID().uuidString
     }
 
     func loadPDFFromBundle() {
@@ -136,45 +137,46 @@ extension PDFDocView {
         prepareNotesFABMenuItem()
         prepareRemindersFABMenuItem()
         fabMenu.delegate = self
-        fabMenu.fabMenuItems = [notesFABMenuItem, remindersFABMenuItem]
+        fabMenu.fabMenuItems = [clearAnnotationFABMenuItem, addSquareFABMenuItem]
 
     }
 
     fileprivate func prepareNotesFABMenuItem() {
-        notesFABMenuItem = FABMenuItem()
-        notesFABMenuItem.title = "Audio Library"
-        notesFABMenuItem.fabButton.image = Icon.cm.pen
-        notesFABMenuItem.fabButton.tintColor = .white
-        notesFABMenuItem.fabButton.pulseColor = .white
-        notesFABMenuItem.fabButton.backgroundColor = Color.green.base
-        notesFABMenuItem.fabButton.addTarget(self, action: #selector(handleNotesFABMenuItem(button:)), for: .touchUpInside)
+        clearAnnotationFABMenuItem = FABMenuItem()
+        clearAnnotationFABMenuItem.title = "Clear Annotations"
+        clearAnnotationFABMenuItem.fabButton.image = Icon.cm.clear
+        clearAnnotationFABMenuItem.fabButton.tintColor = .white
+        clearAnnotationFABMenuItem.fabButton.pulseColor = .white
+        clearAnnotationFABMenuItem.fabButton.backgroundColor = Color.green.base
+        clearAnnotationFABMenuItem.fabButton.addTarget(self, action: #selector(clearAnnotationFABMenuItem(button:)), for: .touchUpInside)
 
     }
 
     fileprivate func prepareRemindersFABMenuItem() {
-        remindersFABMenuItem = FABMenuItem()
-        remindersFABMenuItem.title = "Reminders"
-        remindersFABMenuItem.fabButton.image = Icon.cm.bell
-        remindersFABMenuItem.fabButton.tintColor = .white
-        remindersFABMenuItem.fabButton.pulseColor = .white
-        remindersFABMenuItem.fabButton.backgroundColor = Color.blue.base
-        remindersFABMenuItem.fabButton.addTarget(self, action: #selector(handleRemindersFABMenuItem(button:)), for: .touchUpInside)
+        addSquareFABMenuItem = FABMenuItem()
+        addSquareFABMenuItem.title = "Add Square"
+        addSquareFABMenuItem.fabButton.image = Icon.cm.pen
+        addSquareFABMenuItem.fabButton.tintColor = .white
+        addSquareFABMenuItem.fabButton.pulseColor = .white
+        addSquareFABMenuItem.fabButton.backgroundColor = Color.blue.base
+        addSquareFABMenuItem.fabButton.addTarget(self, action: #selector(addSquareFABMenuItem(button:)), for: .touchUpInside)
     }
 
 
     @objc
-    fileprivate func handleNotesFABMenuItem(button: UIButton) {
+    fileprivate func clearAnnotationFABMenuItem(button: UIButton) {
         print("notesFABMenuItem")
-        addCircle()
+        emitClearAnnotationEvent()
         fabMenu.close()
         fabMenu.fabButton?.animate(Motion.rotation(angle: 0))
 
     }
 
     @objc
-    fileprivate func handleRemindersFABMenuItem(button: UIButton) {
+    fileprivate func addSquareFABMenuItem(button: UIButton) {
         print("remindersFABMenuItem")
-        addText()
+        let square = addSquare()
+        emitAddAnnotationEvent(annotation: square)
         fabMenu.close()
         fabMenu.fabButton?.animate(Motion.rotation(angle: 0))
 
@@ -184,7 +186,7 @@ extension PDFDocView {
 
 extension PDFDocView {
 
-    func addCircle() {
+    func addSquare() -> UIView {
         let contentView = UIView(frame: CGRect(x: 50, y: 50, w: 120, h: 120))
         contentView.addSubview(UIImageView(image: Icon.cm.check))
         contentView.backgroundColor = .red
@@ -195,6 +197,7 @@ extension PDFDocView {
         resizableCircle.preventsPositionOutsideSuperview = true
         resizableCircle.showEditingHandles()
         pdfScrollView.tiledPDFView.addSubview(resizableCircle)
+        return contentView
     }
 
     func addText() {
@@ -209,12 +212,26 @@ extension PDFDocView {
         print("=======ADD ANNOTATION CALLED=======")
     }
 
-    func emitAddAnnotationEvent() {
-
+    func emitAddAnnotationEvent(annotation: UIView) {
+        let annotationDict: [String:Any] = ["type":"area",
+                                               "x": 45.11278195488722,
+                                               "y": 40.6015037593985,
+                                               "width": 498.49624060150376,
+                                               "height": 66.9172932330827,
+                                               "class": "Annotation",
+                                               "uuid": UUID().uuidString,
+                                               "page": 1
+                                               ]
+        socket?.emit(SocketEvents.addAnnotation, with: [annotationDict])
     }
 
     func deleteAnnotationSocketEvent(data: [Any]) {
         print("=======DELETE ANNOTATION CALLED=======")
+        socket?.emit(SocketEvents.deleteAnnotation, with: [["uuid":"5bc6d96e-694d-456a-b687-3e6c1efc8c76",
+                                                            "documentId":"shared/example.pdf",
+                                                            "is_deleted":true,
+                                                            "i_by":"5bc6d96e-694d-456a-b687-3e6c1efc8c76",
+                                                            "page":1]])
 
     }
 
@@ -228,7 +245,7 @@ extension PDFDocView {
     }
 
     func emitClearAnnotationEvent() {
-
+        socket?.emit(SocketEvents.clearAnnotation, with: [["clear"]])
     }
 
     func editAnnotationSocketEvent(data: [Any]) {
@@ -266,10 +283,6 @@ extension PDFDocView: FABMenuDelegate {
     }
 
     func fabMenu(fabMenu: FABMenu, tappedAt point: CGPoint, isOutside: Bool) {
-        if fabMenu == notesFABMenuItem {
-        }
-        if fabMenu == remindersFABMenuItem {
-        }
     }
 }
 
