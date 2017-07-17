@@ -35,6 +35,12 @@ class ViewController: UIViewController {
             print("socket connected")
         }
 
+        socket.on("add annotations") { data, ack in
+            if let safeData = data as? Any {
+                print("DATA====\(safeData)")
+            }
+        }
+
         socket.on("currentAmount") {data, ack in
             if let cur = data[0] as? Double {
                 socket.emitWithAck("canUpdate", cur).timingOut(after: 0) {data in
