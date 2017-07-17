@@ -137,7 +137,6 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
     }
 
 
-
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?)
     {
         // Remove back tiled view.

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PDFDocView: UIView {
+class PDFDocView: UIView, UIScrollViewDelegate {
 
     var pdfFile: CGPDFDocument!
     var numberOfPages: Int = 0
@@ -50,6 +50,10 @@ class PDFDocView: UIView {
         }
     }
 
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return pdfScrollView.tiledPDFView
+    }
+
     func loadPDFInView() {
         if numberOfPages > 1 {
             pdfScrollView = TiledPDFScrollView(frame: CGRect(x: 0, y: 50, w: self.bounds.width, h: self.bounds.height - 50))
@@ -57,6 +61,7 @@ class PDFDocView: UIView {
         } else {
             pdfScrollView = TiledPDFScrollView(frame: self.bounds)
         }
+        pdfScrollView.delegate = self
         self.addSubview(pdfScrollView)
         currentPageNumber = 1
     }
