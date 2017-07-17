@@ -19,9 +19,13 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         didSet {
             page = pdfFile.page(at: currentPageNumber)
             pdfScrollView.setPDFPage(page)
+            if let  _ = currentPageLabel {
+                currentPageLabel.text = "\(currentPageNumber)/\(numberOfPages)"
+            }
         }
     }
     var pageControlView: UIView!
+    var currentPageLabel: UILabel!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -69,7 +73,10 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     func addPageControlView() {
         pageControlView = UIView(frame: CGRect(x: 0, y: 0, width: self.bounds.width, height: 50))
         self.addSubview(pageControlView)
-
+        currentPageLabel = UILabel(frame: CGRect(x: self.bounds.width/2 - 50, y: 0, width: 100, height: 50))
+        currentPageLabel.textAlignment = .center
+        currentPageLabel.text = "1/\(numberOfPages)"
+        pageControlView.addSubview(currentPageLabel)
 
         func addButtonsToPageControl() {
             let nextButton = UIButton(x: self.bounds.width - 50, y: 0, w: 50, h: 50, target: self, action: #selector(changePdfPage(buttonTapped:)))
