@@ -21,18 +21,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1w9-uk-3Lv" customClass="PDFDocView" customModule="PDFKit_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="320" width="375" height="347"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1w9-uk-3Lv" customClass="PDFDocView" customModule="PDFKit_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="40" width="375" height="627"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        <constraints>
-                            <constraint firstItem="1w9-uk-3Lv" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="300" id="36u-Vb-YaD"/>
-                            <constraint firstAttribute="trailing" secondItem="1w9-uk-3Lv" secondAttribute="trailing" id="nCv-pR-oQX"/>
-                            <constraint firstItem="1w9-uk-3Lv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="yMG-0X-ajH"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="1w9-uk-3Lv" secondAttribute="bottom" id="zVr-sb-N3r"/>
-                        </constraints>
                     </view>
                     <connections>
                         <outlet property="pdfView" destination="1w9-uk-3Lv" id="MlN-A5-IPd"/>

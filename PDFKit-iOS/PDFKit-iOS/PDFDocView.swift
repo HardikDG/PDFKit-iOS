@@ -60,7 +60,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     }
 
     func loadPDFFromBundle() {
-        if let pdfUrl = Bundle.main.url(forResource: "NCPocDoc.pdf", withExtension: nil) {
+        if let pdfUrl = Bundle.main.url(forResource: "input_pdf.pdf", withExtension: nil) {
             let documentUrl = pdfUrl as CFURL
             pdfFile = CGPDFDocument(documentUrl)
             numberOfPages = pdfFile.numberOfPages as Int

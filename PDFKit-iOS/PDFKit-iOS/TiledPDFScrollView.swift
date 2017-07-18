@@ -29,7 +29,7 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
     // a reference to the page being drawn
     var tiledPDFPage: CGPDFPage!
 
-
+    var pdfFrameRect: CGSize!
 
     func initialize()
     {
@@ -59,7 +59,15 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
         initialize()
     }
 
+    func lockZoom() {
+        self.maximumZoomScale = self.zoomScale
+        self.minimumZoomScale = self.zoomScale
+    }
 
+    func unlockZoom() {
+        self.minimumZoomScale = 1
+        self.maximumZoomScale = 5
+    }
 
     func setPDFPage(_ newPDFPage: CGPDFPage?)
     {
@@ -165,7 +173,9 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
     func replaceTiledPDFViewWithFrame(_ frame: CGRect)
     {
         // Create a new tiled PDF View at the new scale
-        let newTiledPDFView = TiledPDFView(frame: frame, scale: PDFScale)
+//        let pageRect = pdfFile.page(at: 1)?.getBoxRect(CGPDFBox.mediaBox)
+        let frameRect = tiledPDFPage.getBoxRect(CGPDFBox.mediaBox)
+        let newTiledPDFView = TiledPDFView(frame: frameRect, scale: 1)
         newTiledPDFView.pdfPage = tiledPDFPage
 
         // Add the new TiledPDFView to the PDFScrollView.
