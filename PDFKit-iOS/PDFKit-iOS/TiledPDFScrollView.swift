@@ -37,8 +37,8 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
         delegate = self
         layer.borderColor = UIColor.lightGray.cgColor
         layer.borderWidth = 5
-        minimumZoomScale = 1
-        maximumZoomScale = 1
+        minimumZoomScale = 0.25
+        maximumZoomScale = 5
         backgroundImageView = UIView(frame: frame)
         oldTiledPDFView = TiledPDFView(frame: pageRect, scale: PDFScale)
     }
@@ -162,9 +162,10 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
      */
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat)
     {
+        
         // Set the new scale factor for the TiledPDFView.
         PDFScale *= scale
-
+        print(PDFScale)
         replaceTiledPDFViewWithFrame(oldTiledPDFView.frame)
     }
 
