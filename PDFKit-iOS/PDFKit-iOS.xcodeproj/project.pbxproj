@@ -17,6 +17,7 @@
 		60622C981F14FCEC00B5348B /* TiledPDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60622C961F14FCEC00B5348B /* TiledPDFView.swift */; };
 		60845E791F1CA4860021387E /* NCPocDoc.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 60845E781F1CA4860021387E /* NCPocDoc.pdf */; };
 		60845E7B1F1CE30A0021387E /* PDFAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60845E7A1F1CE30A0021387E /* PDFAnnotation.swift */; };
+		D5D8EA8D1F1D08DC005812E9 /* CircleAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D8EA8C1F1D08DC005812E9 /* CircleAnnotation.swift */; };
 		FC712E6BAB314202B81E56D6 /* Pods_PDFKit_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F03FF245906972A9370D20C /* Pods_PDFKit_iOS.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		60622C961F14FCEC00B5348B /* TiledPDFView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TiledPDFView.swift; sourceTree = "<group>"; };
 		60845E781F1CA4860021387E /* NCPocDoc.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = NCPocDoc.pdf; sourceTree = "<group>"; };
 		60845E7A1F1CE30A0021387E /* PDFAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDFAnnotation.swift; sourceTree = "<group>"; };
+		D5D8EA8C1F1D08DC005812E9 /* CircleAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleAnnotation.swift; sourceTree = "<group>"; };
 		E3BDD6A0202FF516AEFB2551 /* Pods-PDFKit-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDFKit-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-PDFKit-iOS/Pods-PDFKit-iOS.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +100,7 @@
 				60622C961F14FCEC00B5348B /* TiledPDFView.swift */,
 				60335EC31F18F19800886F2C /* PDFDocView.swift */,
 				60845E7A1F1CE30A0021387E /* PDFAnnotation.swift */,
+				D5D8EA8C1F1D08DC005812E9 /* CircleAnnotation.swift */,
 			);
 			name = PDFViewer;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				60622C981F14FCEC00B5348B /* TiledPDFView.swift in Sources */,
+				D5D8EA8D1F1D08DC005812E9 /* CircleAnnotation.swift in Sources */,
 				602104BB1F14F706001F821A /* ViewController.swift in Sources */,
 				60845E7B1F1CE30A0021387E /* PDFAnnotation.swift in Sources */,
 				60335EC41F18F19800886F2C /* PDFDocView.swift in Sources */,

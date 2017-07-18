@@ -175,7 +175,7 @@ extension PDFDocView {
     @objc
     fileprivate func addCircleFABMenuItem(button: UIButton) {
         print("remindersFABMenuItem")
-        let circle = addCircle(xPos: 50, yPos: 75, radius: 50)
+        let circle = addCircle(xPos: 50, yPos: 75, radius: 30)
         annotationArray.append(PDFAnnotation(type: "fillcircle",
                                              color: "blue",
                                              x: circle.frame.x,
@@ -196,19 +196,17 @@ extension PDFDocView {
 
     @discardableResult
     func addCircle(xPos: CGFloat, yPos: CGFloat, radius: CGFloat) -> UIView {
-        let contentView = UIView(frame: CGRect(x: 0, y: 0, w: radius * 2, h: radius * 2))
-        contentView.backgroundColor = .blue
-        contentView.layer.cornerRadius = radius
-        contentView.layer.masksToBounds = true
+        let circleView = CircleAnnotation(frame: CGRect(x: 0, y: 0, w: radius * 2, h: radius * 2))
+        circleView.backgroundColor = UIColor.clear
         let resizableCircle = ZDStickerView(frame: CGRect(x: xPos, y: yPos, w: radius * 2, h: radius * 2))
         resizableCircle.tag = 10
-        resizableCircle.contentView = contentView
+        resizableCircle.contentView = circleView
         resizableCircle.stickerViewDelegate = self
         resizableCircle.preventsPositionOutsideSuperview = true
         resizableCircle.setButton(ZDSTICKERVIEW_BUTTON_DEL, image: Icon.close)
         resizableCircle.showEditingHandles()
         pdfScrollView.tiledPDFView.addSubview(resizableCircle)
-        return contentView
+        return circleView
     }
 
     func addText() {
