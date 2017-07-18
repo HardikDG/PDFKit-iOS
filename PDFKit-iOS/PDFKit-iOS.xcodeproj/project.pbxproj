@@ -160,6 +160,7 @@
 				TargetAttributes = {
 					602104B41F14F706001F821A = {
 						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = G34KQT9TPD;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -380,12 +381,14 @@
 			baseConfigurationReference = 4987EF7EA2F77204A15390A3 /* Pods-PDFKit-iOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = G34KQT9TPD;
 				INFOPLIST_FILE = "PDFKit-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.demo.PDFKit-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "104d97bf-f95f-4530-a64b-745d8d20ffb3";
+				PROVISIONING_PROFILE_SPECIFIER = "SA Star";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -397,6 +400,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "PDFKit-iOS/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.demo.PDFKit-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";

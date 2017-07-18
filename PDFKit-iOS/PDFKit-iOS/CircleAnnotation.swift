@@ -9,6 +9,10 @@
 import UIKit
 
 class CircleAnnotation: UIView {
+
+    var uuid: String?
+    var page: Int?
+    var by_id: String?
     
     override init(frame: CGRect) {
         super.init(frame: frame)

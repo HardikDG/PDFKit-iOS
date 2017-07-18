@@ -39,7 +39,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     }
     var pageControlView: UIView!
     var currentPageLabel: UILabel!
-    var annotationArray = [PDFAnnotation]()
+    var annotationArray = [CircleAnnotation]()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -176,14 +176,9 @@ extension PDFDocView {
     fileprivate func addCircleFABMenuItem(button: UIButton) {
         print("remindersFABMenuItem")
         let circle = addCircle(xPos: 50, yPos: 75, radius: 30)
-        annotationArray.append(PDFAnnotation(type: "fillcircle",
-                                             color: "blue",
-                                             x: circle.frame.x,
-                                             y: circle.frame.y,
-                                             radius: circle.frame.height/2,
-                                             classType: "Annotation",
-                                             uuid: UUID().uuidString,
-                                             page: 1))
+        circle.uuid = UUID().uuidString
+        circle.page = currentPageNumber
+        annotationArray.append(circle)
         emitAddAnnotationEvent(annotation: circle)
         fabMenu.close()
         fabMenu.fabButton?.animate(Motion.rotation(angle: 0))
@@ -195,7 +190,7 @@ extension PDFDocView {
 extension PDFDocView {
 
     @discardableResult
-    func addCircle(xPos: CGFloat, yPos: CGFloat, radius: CGFloat) -> UIView {
+    func addCircle(xPos: CGFloat, yPos: CGFloat, radius: CGFloat) -> CircleAnnotation {
         let circleView = CircleAnnotation(frame: CGRect(x: 0, y: 0, w: radius * 2, h: radius * 2))
         circleView.backgroundColor = UIColor.clear
         let resizableCircle = ZDStickerView(frame: CGRect(x: xPos, y: yPos, w: radius * 2, h: radius * 2))
@@ -222,27 +217,19 @@ extension PDFDocView {
             let xPos = circleData["cx"] as! CGFloat
             let yPos = circleData["cy"] as! CGFloat
             let radius = circleData["r"] as! CGFloat
-            addCircle(xPos: xPos, yPos: yPos, radius: radius)
-            annotationArray.append(PDFAnnotation(type: circleData["type"] as! String,
-                                                 color: circleData["color"] as! String,
-                                                 x: circleData["cx"] as! CGFloat,
-                                                 y: circleData["cy"] as! CGFloat,
-                                                 radius: circleData["r"] as! CGFloat,
-                                                 classType: circleData["class"] as! String,
-                                                 uuid: circleData["uuid"] as! String,
-                                                 page: circleData["page"] as! Int))
+            let circleAnnotation = addCircle(xPos: xPos, yPos: yPos, radius: radius)
+            annotationArray.append(circleAnnotation)
         }
     }
 
-    func emitAddAnnotationEvent(annotation: UIView) {
-        let annotationDict: [String:Any] = ["type":"area",
-                                               "x": 45.11278195488722,
-                                               "y": 40.6015037593985,
-                                               "width": 498.49624060150376,
-                                               "height": 66.9172932330827,
+    func emitAddAnnotationEvent(annotation: CircleAnnotation) {
+        let annotationDict: [String:Any] = ["type":"fillcircle",
+                                               "cx": annotation.frame.x,
+                                               "cy": annotation.frame.y,
+                                               "r": annotation.frame.width/2,
                                                "class": "Annotation",
-                                               "uuid": UUID().uuidString,
-                                               "page": 1
+                                               "uuid": annotation.uuid!,
+                                               "page": annotation.page
                                                ]
         socket?.emit(SocketEvents.addAnnotation, with: [annotationDict])
     }
@@ -268,6 +255,9 @@ extension PDFDocView {
 
     func emitClearAnnotationEvent() {
         socket?.emit(SocketEvents.clearAnnotation, with: [["clear"]])
+        annotationArray.forEach { (annotation) in
+            annotation.removeFromSuperview()
+        }
     }
 
     func editAnnotationSocketEvent(data: [Any]) {

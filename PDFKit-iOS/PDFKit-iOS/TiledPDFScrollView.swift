@@ -37,8 +37,8 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
         delegate = self
         layer.borderColor = UIColor.lightGray.cgColor
         layer.borderWidth = 5
-        minimumZoomScale = 0.25
-        maximumZoomScale = 5
+        minimumZoomScale = 1
+        maximumZoomScale = 1
         backgroundImageView = UIView(frame: frame)
         oldTiledPDFView = TiledPDFView(frame: pageRect, scale: PDFScale)
     }
@@ -173,9 +173,7 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
     func replaceTiledPDFViewWithFrame(_ frame: CGRect)
     {
         // Create a new tiled PDF View at the new scale
-//        let pageRect = pdfFile.page(at: 1)?.getBoxRect(CGPDFBox.mediaBox)
-        let frameRect = tiledPDFPage.getBoxRect(CGPDFBox.mediaBox)
-        let newTiledPDFView = TiledPDFView(frame: frameRect, scale: 1)
+        let newTiledPDFView = TiledPDFView(frame: frame, scale: PDFScale)
         newTiledPDFView.pdfPage = tiledPDFPage
 
         // Add the new TiledPDFView to the PDFScrollView.
