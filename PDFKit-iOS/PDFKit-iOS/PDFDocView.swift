@@ -83,6 +83,9 @@ class PDFDocView: UIView, UIScrollViewDelegate {
             pdfScrollView = TiledPDFScrollView(frame: self.bounds)
         }
         self.addSubview(pdfScrollView)
+        let scrollRect = pdfFile.page(at: 1)?.getBoxRect(CGPDFBox.mediaBox)
+        self.pdfScrollView.pdfFrameRect = scrollRect?.size
+        self.pdfScrollView.frame = scrollRect!
         currentPageNumber = 1
     }
 
@@ -216,7 +219,7 @@ extension PDFDocView {
             let xPos = circleData["cx"] as! CGFloat
             let yPos = circleData["cy"] as! CGFloat
             let radius = circleData["r"] as! CGFloat
-            let circleAnnotation = addCircle(xPos: xPos * pdfScrollView.PDFScale, yPos: yPos * pdfScrollView.PDFScale, radius: radius / pdfScrollView.PDFScale)
+            let circleAnnotation = addCircle(xPos: xPos, yPos: yPos, radius: 30)
             (circleAnnotation.contentView as! CircleAnnotation).uuid = circleData["uuid"] as? String
             (circleAnnotation.contentView as! CircleAnnotation).page = circleData["page"] as? Int
             annotationArray.append(circleAnnotation)
@@ -226,9 +229,9 @@ extension PDFDocView {
     func emitAddAnnotationEvent(annotation: ZDStickerView) {
         
         let annotationDict: [String:Any] = ["type":"fillcircle",
-                                               "cx": 50,
-                                               "cy": 75,
-                                               "r": 10,
+                                               "cx": annotation.frame.x,
+                                               "cy": annotation.frame.y,
+                                               "r": annotation.frame.width/2,
                                                "class": "Annotation",
                                                "uuid": (annotation.contentView as! CircleAnnotation).uuid!,
                                                "page": (annotation.contentView as! CircleAnnotation).page!,
@@ -239,16 +242,20 @@ extension PDFDocView {
 
     func deleteAnnotationSocketEvent(data: [Any]) {
         print("=======DELETE ANNOTATION CALLED=======")
-        socket?.emit(SocketEvents.deleteAnnotation, with: [["uuid":"5bc6d96e-694d-456a-b687-3e6c1efc8c76",
-                                                            "documentId":"shared/example.pdf",
-                                                            "is_deleted":true,
-                                                            "i_by":"5bc6d96e-694d-456a-b687-3e6c1efc8c76",
-                                                            "page":1]])
-
+        if let annotationData = data.first as? [String : Any] {
+            let uuid = annotationData["uuid"] as! String
+            let annotation = annotationArray.filter { ($0.contentView as! CircleAnnotation).uuid == uuid }
+            print(annotation)
+            annotation.first?.removeFromSuperview()
+        }
     }
 
-    func emitDeleteAnnotationEvent() {
-
+    func emitDeleteAnnotationEvent(annotation: ZDStickerView) {
+        socket?.emit(SocketEvents.deleteAnnotation, with: [["uuid": (annotation.contentView as! CircleAnnotation).uuid!,
+                                                            "documentId":"shared/example.pdf",
+                                                            "is_deleted":true,
+                                                            "i_by":(annotation.contentView as! CircleAnnotation).uuid!,
+                                                            "page":1]])
     }
 
     func clearAnnotationsSocketEvent(data: [Any]) {
@@ -269,11 +276,28 @@ extension PDFDocView {
 
     func editAnnotationSocketEvent(data: [Any]) {
         print("=======EDIT ANNOTATION CALLED=======")
-
+        if let annotationData = data.first as? [String : Any] {
+            let uuid = annotationData["uuid"] as! String
+            let annotation = annotationArray.filter { ($0.contentView as! CircleAnnotation).uuid == uuid }
+            print(annotation)
+            let cx = annotationData["cx"] as! CGFloat
+            let cy = annotationData["cy"] as! CGFloat
+            annotation.first?.frame.x = cx
+            annotation.first?.frame.y = cy
+        }
     }
 
-    func emitEditAnnotationEvent() {
-
+    func emitEditAnnotationEvent(annotation: ZDStickerView) {
+        let annotationDict: [String:Any] = ["type":"fillcircle",
+                                            "cx": annotation.frame.x,
+                                            "cy": annotation.frame.y,
+                                            "r": annotation.frame.width/2,
+                                            "class": "Annotation",
+                                            "uuid": (annotation.contentView as! CircleAnnotation).uuid!,
+                                            "page": (annotation.contentView as! CircleAnnotation).page!,
+                                            "color": "#808080",
+                                            ]
+        socket?.emit(SocketEvents.editAnnotation, with: [annotationDict])
     }
 }
 
@@ -281,6 +305,23 @@ extension PDFDocView {
 
 extension PDFDocView: ZDStickerViewDelegate {
 
+    func stickerViewDidClose(_ sticker: ZDStickerView!) {
+        print(sticker)
+        print("CLOSE")
+        emitDeleteAnnotationEvent(annotation: sticker)
+    }
+    
+    func stickerViewDidEndEditing(_ sticker: ZDStickerView!) {
+        print(sticker)
+        print("stickerViewDidEndEditing")
+        emitEditAnnotationEvent(annotation: sticker)
+    }
+    
+    func stickerViewDidCancelEditing(_ sticker: ZDStickerView!) {
+        print(sticker)
+        print("stickerViewDidCancelEditing")
+    }
+    
 }
 
 extension PDFDocView: FABMenuDelegate {
