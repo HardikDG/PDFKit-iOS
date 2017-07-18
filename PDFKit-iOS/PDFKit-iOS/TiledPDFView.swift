@@ -31,8 +31,8 @@ class TiledPDFView: UIView {
         tiledLayer.levelsOfDetailBias = 3
         tiledLayer.tileSize = CGSize(width: 512.0, height: 512.0)
         myScale = scale
-        layer.borderColor = UIColor.lightGray.cgColor
-        layer.borderWidth = 5
+//        layer.borderColor = UIColor.lightGray.cgColor
+//        layer.borderWidth = 5
     }
 
 

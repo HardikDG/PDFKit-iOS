@@ -35,12 +35,12 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
     {
         decelerationRate = UIScrollViewDecelerationRateFast
         delegate = self
-        layer.borderColor = UIColor.lightGray.cgColor
-        layer.borderWidth = 5
+//        layer.borderColor = UIColor.lightGray.cgColor
+//        layer.borderWidth = 5
         minimumZoomScale = 1
         maximumZoomScale = 1
-        backgroundImageView = UIView(frame: frame)
-        oldTiledPDFView = TiledPDFView(frame: pageRect, scale: PDFScale)
+//        backgroundImageView = UIView(frame: frame)
+//        oldTiledPDFView = TiledPDFView(frame: pageRect, scale: PDFScale)
     }
 
 
@@ -124,7 +124,7 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
         }
 
         tiledPDFView.frame = frameToCenter
-        backgroundImageView.frame = frameToCenter
+//        backgroundImageView.frame = frameToCenter
 
         /*
          To handle the interaction between CATiledLayer and high resolution screens, set the tiling view's contentScaleFactor to 1.0.
@@ -147,11 +147,13 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
 
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?)
     {
-        // Remove back tiled view.
-        oldTiledPDFView.removeFromSuperview()
+//        // Remove back tiled view.
+//        oldTiledPDFView.removeFromSuperview()
+//
+//        // Set the current TiledPDFView to be the old view.
+//        oldTiledPDFView = tiledPDFView
 
-        // Set the current TiledPDFView to be the old view.
-        oldTiledPDFView = tiledPDFView
+        print("scrollViewWillBeginZooming === \(self.zoomScale)")
     }
 
 
@@ -162,14 +164,16 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
      */
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat)
     {
-        
+        print("scrollViewDidEndZooming before === \(scale) PDFScale === \(PDFScale)")
         // Set the new scale factor for the TiledPDFView.
-        PDFScale *= scale
-        print(PDFScale)
-        replaceTiledPDFViewWithFrame(oldTiledPDFView.frame)
+        PDFScale = scale
+
+//        replaceTiledPDFViewWithFrame(oldTiledPDFView.frame)
     }
 
-
+    func fullScale() -> CGFloat {
+        return (self.tiledPDFView.myScale * self.zoomScale)
+    }
 
     func replaceTiledPDFViewWithFrame(_ frame: CGRect)
     {
@@ -183,6 +187,7 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
             tiledPDFView.removeFromSuperview()
         }
         tiledPDFView = newTiledPDFView
+        self.zoomScale = self.zoomScale
     }
     
 }

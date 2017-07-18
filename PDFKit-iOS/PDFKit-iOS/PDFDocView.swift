@@ -71,10 +71,6 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         }
     }
 
-//    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-//        return pdfScrollView.tiledPDFView
-//    }
-
     func loadPDFInView() {
         if numberOfPages > 1 {
             pdfScrollView = TiledPDFScrollView(frame: CGRect(x: 0, y: 50, w: self.bounds.width, h: self.bounds.height - 50))
@@ -83,10 +79,14 @@ class PDFDocView: UIView, UIScrollViewDelegate {
             pdfScrollView = TiledPDFScrollView(frame: self.bounds)
         }
         self.addSubview(pdfScrollView)
+        self.pdfScrollView.delaysContentTouches = true
+        self.pdfScrollView.isExclusiveTouch = true
+        self.pdfScrollView.canCancelContentTouches = true
         let scrollRect = pdfFile.page(at: 1)?.getBoxRect(CGPDFBox.mediaBox)
         self.pdfScrollView.pdfFrameRect = scrollRect?.size
-        self.pdfScrollView.frame = scrollRect!
+        self.pdfScrollView.frame = CGRect(x: 0, y: 50, width: self.pdfScrollView.frame.size.width, height: self.pdfScrollView.frame.size.height)
         currentPageNumber = 1
+        self.pdfScrollView.tiledPDFView.layer.setNeedsLayout()
     }
 
     func addPageControlView() {
