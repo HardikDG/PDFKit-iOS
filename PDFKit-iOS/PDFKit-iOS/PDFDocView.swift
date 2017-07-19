@@ -195,6 +195,7 @@ extension PDFDocView {
     func addCircle(xPos: CGFloat, yPos: CGFloat, radius: CGFloat) -> ZDStickerView {
         let circleView = CircleAnnotation(frame: CGRect(x: 0, y: 0, w: radius * 2, h: radius * 2))
         circleView.backgroundColor = UIColor.clear
+        circleView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         let resizableCircle = ZDStickerView(frame: CGRect(x: xPos, y: yPos, w: radius * 2, h: radius * 2))
         resizableCircle.tag = 10
         resizableCircle.contentView = circleView
@@ -207,6 +208,16 @@ extension PDFDocView {
     }
 
     func addText() {
+    }
+
+    func calculateFrameForAnnotation(annotation: ZDStickerView, fromView: TiledPDFScrollView) -> CGRect {
+        var frame: CGRect = .zero
+        let scale = pdfScrollView.zoomScale
+        frame.size.width = annotation.contentView.frame.size.width * scale
+        frame.size.height = annotation.contentView.frame.size.height * scale
+        frame.origin.x = annotation.frame.origin.x + annotation.contentView.frame.origin.x * scale
+        frame.origin.y = annotation.frame.origin.y + annotation.contentView.frame.origin.y * scale
+        return frame
     }
 }
 
@@ -227,11 +238,13 @@ extension PDFDocView {
     }
 
     func emitAddAnnotationEvent(annotation: ZDStickerView) {
-        
+
+        let frame = calculateFrameForAnnotation(annotation: annotation, fromView: pdfScrollView)
+
         let annotationDict: [String:Any] = ["type":"fillcircle",
-                                               "cx": annotation.frame.x,
-                                               "cy": annotation.frame.y,
-                                               "r": annotation.frame.width/2,
+                                               "cx": round(frame.x),
+                                               "cy": round(frame.y),
+                                               "r": ceil(frame.width/2),
                                                "class": "Annotation",
                                                "uuid": (annotation.contentView as! CircleAnnotation).uuid!,
                                                "page": (annotation.contentView as! CircleAnnotation).page!,
