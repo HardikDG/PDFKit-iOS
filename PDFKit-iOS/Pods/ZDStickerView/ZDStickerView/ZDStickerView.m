@@ -10,10 +10,10 @@
 #import "SPGripViewBorderView.h"
 
 
-#define kSPUserResizableViewGlobalInset 5.0
-#define kSPUserResizableViewDefaultMinWidth 48.0
-#define kSPUserResizableViewInteractiveBorderSize 10.0
-#define kZDStickerViewControlSize 36.0
+#define kSPUserResizableViewGlobalInset 0
+#define kSPUserResizableViewDefaultMinWidth 10.0
+#define kSPUserResizableViewInteractiveBorderSize 0
+#define kZDStickerViewControlSize 20.0
 
 
 

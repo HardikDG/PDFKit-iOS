@@ -10,10 +10,10 @@
 
 @implementation SPGripViewBorderView
 
-#define kSPUserResizableViewGlobalInset 5.0
+#define kSPUserResizableViewGlobalInset 0
 #define kSPUserResizableViewDefaultMinWidth 48.0
 #define kSPUserResizableViewDefaultMinHeight 48.0
-#define kSPUserResizableViewInteractiveBorderSize 10.0
+#define kSPUserResizableViewInteractiveBorderSize 0
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {

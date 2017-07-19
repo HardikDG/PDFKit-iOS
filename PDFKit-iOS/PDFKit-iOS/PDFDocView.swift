@@ -178,7 +178,7 @@ extension PDFDocView {
     @objc
     fileprivate func addCircleFABMenuItem(button: UIButton) {
         print("remindersFABMenuItem")
-        let circle = addCircle(xPos: 50, yPos: 75, radius: 30)
+        let circle = addCircle(xPos: 50, yPos: 75, radius: 10)
         (circle.contentView as! CircleAnnotation).uuid = UUID().uuidString
         (circle.contentView as! CircleAnnotation).page = currentPageNumber
         annotationArray.append(circle)
@@ -197,10 +197,10 @@ extension PDFDocView {
         let circleView = CircleAnnotation(frame: CGRect(x: 0, y: 0, w: radius * 2, h: radius * 2))
         circleView.backgroundColor = UIColor.clear
         let resizableCircle = ZDStickerView(frame: CGRect(x: xPos, y: yPos, w: radius * 2, h: radius * 2))
-        resizableCircle.tag = 10
         resizableCircle.contentView = circleView
         resizableCircle.stickerViewDelegate = self
         resizableCircle.preventsPositionOutsideSuperview = true
+        resizableCircle.preventsCustomButton = true
         resizableCircle.setButton(ZDSTICKERVIEW_BUTTON_DEL, image: Icon.close)
         resizableCircle.showEditingHandles()
         pdfScrollView.tiledPDFView.addSubview(resizableCircle)
@@ -232,7 +232,7 @@ extension PDFDocView {
             let xPos = circleData["cx"] as! CGFloat
             let yPos = circleData["cy"] as! CGFloat
             let radius = circleData["r"] as! CGFloat
-            let circleAnnotation = addCircle(xPos: xPos - 30, yPos: yPos - 30, radius: 30)
+            let circleAnnotation = addCircle(xPos: xPos - radius, yPos: yPos - radius, radius: radius)
 //            let circleView = CircleAnnotation(frame: CGRect(x: xPos - 10, y: yPos - 10, w: 20, h: 20))
 //            circleView.backgroundColor = UIColor.clear
 //            pdfScrollView.tiledPDFView.addSubview(circleView)
