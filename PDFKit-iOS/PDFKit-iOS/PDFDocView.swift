@@ -250,8 +250,8 @@ extension PDFDocView {
     func calculateFrameForAnnotation(annotation: ZDStickerView, fromView: TiledPDFScrollView) -> CGRect {
         var frame: CGRect = .zero
         let scale = pdfScrollView.zoomScale
-        frame.size.width = annotation.contentView.frame.size.width * scale
-        frame.size.height = annotation.contentView.frame.size.height * scale
+        frame.size.width = annotation.contentView.frame.size.width //* scale
+        frame.size.height = annotation.contentView.frame.size.height //* scale
         frame.origin.x = annotation.frame.origin.x + annotation.contentView.frame.origin.x * scale
         frame.origin.y = annotation.frame.origin.y + annotation.contentView.frame.origin.y * scale
         return frame

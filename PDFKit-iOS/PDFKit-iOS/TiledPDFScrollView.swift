@@ -37,8 +37,8 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
         delegate = self
 //        layer.borderColor = UIColor.lightGray.cgColor
 //        layer.borderWidth = 5
-        minimumZoomScale = 1
-        maximumZoomScale = 1
+        minimumZoomScale = 0.25
+        maximumZoomScale = 5
 //        backgroundImageView = UIView(frame: frame)
 //        oldTiledPDFView = TiledPDFView(frame: pageRect, scale: PDFScale)
     }
