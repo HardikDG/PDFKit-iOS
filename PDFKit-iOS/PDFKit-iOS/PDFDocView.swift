@@ -35,11 +35,13 @@ class PDFDocView: UIView, UIScrollViewDelegate {
             if let  _ = currentPageLabel {
                 currentPageLabel.text = "\(currentPageNumber)/\(numberOfPages)"
             }
+            reloadAnnotaions()
         }
     }
     var pageControlView: UIView!
     var currentPageLabel: UILabel!
     var annotationArray: [ZDStickerView] = []
+    var tapGesture: UITapGestureRecognizer!
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -60,7 +62,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     }
 
     func loadPDFFromBundle() {
-        if let pdfUrl = Bundle.main.url(forResource: "input_pdf.pdf", withExtension: nil) {
+        if let pdfUrl = Bundle.main.url(forResource: "gal-trace.pdf", withExtension: nil) {
             let documentUrl = pdfUrl as CFURL
             pdfFile = CGPDFDocument(documentUrl)
             numberOfPages = pdfFile.numberOfPages as Int
@@ -87,7 +89,36 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         self.pdfScrollView.frame = CGRect(x: 0, y: 50, width: self.pdfScrollView.frame.size.width, height: self.pdfScrollView.frame.size.height)
         currentPageNumber = 1
         self.pdfScrollView.tiledPDFView.layer.setNeedsLayout()
-        self.pdfScrollView.isScrollEnabled = false
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizer(tapGesture:)))
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.numberOfTouchesRequired = 1
+        self.pdfScrollView.addGestureRecognizer(tapGesture)
+    }
+
+    func tapGestureRecognizer(tapGesture: UITapGestureRecognizer) {
+        print("DID Tap ON PDF")
+        self.pdfScrollView.isScrollEnabled = true
+        annotationArray.forEach { (annotation) in
+            annotation.hideEditingHandles()
+        }
+    }
+
+    func reloadAnnotaions() {
+        func removeAllAnnotationsFromPDF() {
+            annotationArray.forEach { (annotation) in
+                annotation.removeFromSuperview()
+            }
+        }
+
+        func addAnnotaionForCurrentPage() {
+            let annotations = annotationArray.filter { ($0.contentView as! CircleAnnotation).page == currentPageNumber }
+            annotations.forEach { (annotation) in
+                self.pdfScrollView.tiledPDFView.addSubview(annotation)
+            }
+        }
+
+        removeAllAnnotationsFromPDF()
+        addAnnotaionForCurrentPage()
     }
 
     func addPageControlView() {
@@ -178,9 +209,11 @@ extension PDFDocView {
     @objc
     fileprivate func addCircleFABMenuItem(button: UIButton) {
         print("remindersFABMenuItem")
-        let circle = addCircle(xPos: 50, yPos: 75, radius: 10)
-        (circle.contentView as! CircleAnnotation).uuid = UUID().uuidString
-        (circle.contentView as! CircleAnnotation).page = currentPageNumber
+        let circle = addCircle(xPos: 50,
+                               yPos: 75,
+                               radius: 10,
+                               page: currentPageNumber,
+                               uuid: UUID().uuidString)
         annotationArray.append(circle)
         emitAddAnnotationEvent(annotation: circle)
         fabMenu.close()
@@ -193,8 +226,10 @@ extension PDFDocView {
 extension PDFDocView {
 
     @discardableResult
-    func addCircle(xPos: CGFloat, yPos: CGFloat, radius: CGFloat) -> ZDStickerView {
+    func addCircle(xPos: CGFloat, yPos: CGFloat, radius: CGFloat, page: Int, uuid: String) -> ZDStickerView {
         let circleView = CircleAnnotation(frame: CGRect(x: 0, y: 0, w: radius * 2, h: radius * 2))
+        circleView.uuid = uuid
+        circleView.page = page
         circleView.backgroundColor = UIColor.clear
         let resizableCircle = ZDStickerView(frame: CGRect(x: xPos, y: yPos, w: radius * 2, h: radius * 2))
         resizableCircle.contentView = circleView
@@ -202,8 +237,10 @@ extension PDFDocView {
         resizableCircle.preventsPositionOutsideSuperview = true
         resizableCircle.preventsCustomButton = true
         resizableCircle.setButton(ZDSTICKERVIEW_BUTTON_DEL, image: Icon.close)
-        resizableCircle.showEditingHandles()
-        pdfScrollView.tiledPDFView.addSubview(resizableCircle)
+        resizableCircle.hideEditingHandles()
+        if page == currentPageNumber {
+            pdfScrollView.tiledPDFView.addSubview(resizableCircle)
+        }
         return resizableCircle
     }
 
@@ -225,19 +262,20 @@ extension PDFDocView {
     // Socket Event Updates 
 
     func addAnnotationSocketEvent(data: [Any]) {
-        
-        
+
         print("=======ADD ANNOTATION CALLED=======")
         if let circleData = data.first as? [String : Any] {
             let xPos = circleData["cx"] as! CGFloat
             let yPos = circleData["cy"] as! CGFloat
             let radius = circleData["r"] as! CGFloat
-            let circleAnnotation = addCircle(xPos: xPos - radius, yPos: yPos - radius, radius: radius)
+            let circleAnnotation = addCircle(xPos: xPos - radius,
+                                             yPos: yPos - radius,
+                                             radius: radius,
+                                             page: circleData["page"] as! Int,
+                                             uuid: circleData["uuid"] as! String)
 //            let circleView = CircleAnnotation(frame: CGRect(x: xPos - 10, y: yPos - 10, w: 20, h: 20))
 //            circleView.backgroundColor = UIColor.clear
 //            pdfScrollView.tiledPDFView.addSubview(circleView)
-            (circleAnnotation.contentView as! CircleAnnotation).uuid = circleData["uuid"] as? String
-            (circleAnnotation.contentView as! CircleAnnotation).page = circleData["page"] as? Int
             annotationArray.append(circleAnnotation)
         }
     }
@@ -344,8 +382,21 @@ extension PDFDocView: ZDStickerViewDelegate {
     func stickerViewDidCancelEditing(_ sticker: ZDStickerView!) {
         print(sticker)
         print("stickerViewDidCancelEditing")
+        if sticker.isEditingHandlesHidden() {
+            sticker.showEditingHandles()
+            self.pdfScrollView.isScrollEnabled = false
+        }
     }
-    
+
+    func stickerViewDidBeginEditing(_ sticker: ZDStickerView!) {
+        print(sticker)
+        print("stickerViewDidBeginEditing")
+    }
+
+    func stickerViewDidCustomButtonTap(_ sticker: ZDStickerView!) {
+        print(sticker)
+        print("stickerViewDidCustomButtonTap")
+    }
 }
 
 extension PDFDocView: FABMenuDelegate {
