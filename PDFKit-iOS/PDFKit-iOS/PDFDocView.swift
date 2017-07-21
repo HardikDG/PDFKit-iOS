@@ -46,12 +46,12 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.configureView()
+//        self.configureView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        self.configureView()
+//        self.configureView()
     }
 
     func configureView() {
@@ -62,7 +62,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     }
 
     func loadPDFFromBundle() {
-        if let pdfUrl = Bundle.main.url(forResource: "gal-trace.pdf", withExtension: nil) {
+        if let pdfUrl = Bundle.main.url(forResource: "input_pdf.pdf", withExtension: nil) {
             let documentUrl = pdfUrl as CFURL
             pdfFile = CGPDFDocument(documentUrl)
             numberOfPages = pdfFile.numberOfPages as Int
@@ -80,15 +80,12 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         } else {
             pdfScrollView = TiledPDFScrollView(frame: self.bounds)
         }
+        pdfScrollView.pdfScrollDelegate = self
         self.addSubview(pdfScrollView)
         self.pdfScrollView.delaysContentTouches = true
         self.pdfScrollView.isExclusiveTouch = true
         self.pdfScrollView.canCancelContentTouches = true
-        let scrollRect = pdfFile.page(at: 1)?.getBoxRect(CGPDFBox.mediaBox)
-        self.pdfScrollView.pdfFrameRect = scrollRect?.size
-        self.pdfScrollView.frame = CGRect(x: 0, y: 50, width: self.pdfScrollView.frame.size.width, height: self.pdfScrollView.frame.size.height)
         currentPageNumber = 1
-        self.pdfScrollView.tiledPDFView.layer.setNeedsLayout()
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizer(tapGesture:)))
         tapGesture.numberOfTapsRequired = 1
         tapGesture.numberOfTouchesRequired = 1
@@ -151,6 +148,18 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         }
     }
 
+}
+
+extension PDFDocView: PDFViewDelegate {
+
+    func beginZooming() {
+        print("BEGIN ZOOMING")
+    }
+
+    func endZooming() {
+        print("END ZOOMING")
+        
+    }
 }
 
 extension PDFDocView {
