@@ -12,7 +12,7 @@ import UIKit
 protocol PDFViewDelegate {
 
     func beginZooming()
-    func endZooming()
+    func endZooming(scale: CGFloat)
 }
 
 class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
@@ -45,8 +45,8 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
         delegate = self
 //        layer.borderColor = UIColor.lightGray.cgColor
 //        layer.borderWidth = 5
-        minimumZoomScale = 0.25
-        maximumZoomScale = 5
+        minimumZoomScale = 0.5
+        maximumZoomScale = 2
         backgroundImageView = UIView(frame: frame)
         oldTiledPDFView = TiledPDFView(frame: pageRect, scale: PDFScale)
     }
@@ -73,8 +73,8 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
     }
 
     func unlockZoom() {
-        self.minimumZoomScale = 1
-        self.maximumZoomScale = 5
+        self.minimumZoomScale = 0.5
+        self.maximumZoomScale = 2
     }
 
     func setPDFPage(_ newPDFPage: CGPDFPage?)
@@ -178,7 +178,7 @@ class TiledPDFScrollView: UIScrollView, UIScrollViewDelegate {
         PDFScale *= scale
 
         replaceTiledPDFViewWithFrame(oldTiledPDFView.frame)
-        pdfScrollDelegate.endZooming()
+        pdfScrollDelegate.endZooming(scale: scale)
     }
 
     func fullScale() -> CGFloat {

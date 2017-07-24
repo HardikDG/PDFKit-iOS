@@ -27,7 +27,7 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSaveGState(context);
     
-    CGContextSetLineWidth(context, 1.0);
+    CGContextSetLineWidth(context, 3.0);
     CGContextSetStrokeColorWithColor(context, [UIColor grayColor].CGColor);
     CGContextAddRect(context, CGRectInset(self.bounds, kSPUserResizableViewInteractiveBorderSize/2, kSPUserResizableViewInteractiveBorderSize/2));
     CGContextStrokePath(context);

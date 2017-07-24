@@ -110,6 +110,23 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         func addAnnotaionForCurrentPage() {
             let annotations = annotationArray.filter { ($0.contentView as! CircleAnnotation).page == currentPageNumber }
             annotations.forEach { (annotation) in
+
+                var cx = annotation.frame.x
+                var cy = annotation.frame.y
+                var w = annotation.size.width
+                var h = annotation.size.height
+
+                if let scale = (annotation.contentView as! CircleAnnotation).scale {
+                    cx = (annotation.frame.x / scale) * pdfScrollView.PDFScale
+                    cy = (annotation.frame.y / scale) * pdfScrollView.PDFScale
+                    w = (annotation.size.width / scale) * pdfScrollView.PDFScale
+                    h = (annotation.size.height / scale) * pdfScrollView.PDFScale
+                    (annotation.contentView as! CircleAnnotation).scale = pdfScrollView.PDFScale
+                }
+                annotation.frame = CGRect(x: cx,
+                                          y: cy,
+                                          width: w,
+                                          height: h)
                 self.pdfScrollView.tiledPDFView.addSubview(annotation)
             }
         }
@@ -157,7 +174,7 @@ extension PDFDocView: PDFViewDelegate {
         print("BEGIN ZOOMING")
     }
 
-    func endZooming() {
+    func endZooming(scale: CGFloat) {
         print("END ZOOMING")
         reloadAnnotaions()
     }
@@ -240,8 +257,12 @@ extension PDFDocView {
         let circleView = CircleAnnotation(frame: CGRect(x: 0, y: 0, w: radius * 2, h: radius * 2))
         circleView.uuid = uuid
         circleView.page = page
+        circleView.scale = pdfScrollView.PDFScale
         circleView.backgroundColor = UIColor.clear
-        let resizableCircle = ZDStickerView(frame: CGRect(x: xPos, y: yPos, w: radius * 2, h: radius * 2))
+        let resizableCircle = ZDStickerView(frame: CGRect(x: xPos * pdfScrollView.PDFScale,
+                                                          y: yPos * pdfScrollView.PDFScale,
+                                                          w: (radius * 2) * pdfScrollView.PDFScale,
+                                                          h: (radius * 2) * pdfScrollView.PDFScale))
         resizableCircle.contentView = circleView
         resizableCircle.stickerViewDelegate = self
         resizableCircle.preventsPositionOutsideSuperview = true
@@ -283,30 +304,30 @@ extension PDFDocView {
                                              radius: radius,
                                              page: circleData["page"] as! Int,
                                              uuid: circleData["uuid"] as! String)
-//            let circleView = CircleAnnotation(frame: CGRect(x: xPos - 10, y: yPos - 10, w: 20, h: 20))
-//            circleView.backgroundColor = UIColor.clear
-//            pdfScrollView.tiledPDFView.addSubview(circleView)
             annotationArray.append(circleAnnotation)
         }
     }
 
     func emitAddAnnotationEvent(annotation: ZDStickerView) {
-
-//        let circleView = CircleAnnotation(frame: CGRect(x: 92 - 10, y: 195 - 10, w: 20, h: 20))
-//        circleView.backgroundColor = UIColor.clear
-//        pdfScrollView.tiledPDFView.addSubview(circleView)
         
         let frame = calculateFrameForAnnotation(annotation: annotation, fromView: pdfScrollView)
         print(frame)
+        var cx = frame.x + (frame.width)/2
+        var cy = frame.y + (frame.width)/2
+        var r = (frame.width)/2
+        if let scale = (annotation.contentView as! CircleAnnotation).scale {
+            cx = (frame.x + (frame.width)/2) / scale
+            cy = (frame.y + (frame.width)/2) / scale
+            r = ((frame.width)/2) / scale
+        }
         let annotationDict: [String:Any] = ["type":"fillcircle",
-                                               "cx": frame.x + (frame.width)/2,
-                                               "cy": frame.y + (frame.width)/2,
-                                               "r": (frame.width)/2,
+                                               "cx": cx,
+                                               "cy": cy,
+                                               "r": r,
                                                "class": "Annotation",
                                                "uuid": (annotation.contentView as! CircleAnnotation).uuid!,
                                                "page": (annotation.contentView as! CircleAnnotation).page!,
-                                               "color": "#808080",
-                                               ]
+                                               "color": "#808080"]
         socket?.emit(SocketEvents.addAnnotation, with: [annotationDict])
     }
 
@@ -364,16 +385,22 @@ extension PDFDocView {
 
     func emitEditAnnotationEvent(annotation: ZDStickerView) {
         let frame = calculateFrameForAnnotation(annotation: annotation, fromView: pdfScrollView)
-
+        var cx = frame.x + (frame.width)/2
+        var cy = frame.y + (frame.width)/2
+        var r = (frame.width)/2
+        if let scale = (annotation.contentView as! CircleAnnotation).scale {
+            cx = (frame.x + (frame.width)/2) / scale
+            cy = (frame.y + (frame.width)/2) / scale
+            r = ((frame.width)/2) / scale
+        }
         let annotationDict: [String:Any] = ["type":"fillcircle",
-                                            "cx": frame.x + (frame.width)/2,
-                                            "cy": frame.y + (frame.width)/2,
-                                            "r": (frame.width)/2,
+                                            "cx": cx,
+                                            "cy": cy,
+                                            "r": r,
                                             "class": "Annotation",
                                             "uuid": (annotation.contentView as! CircleAnnotation).uuid!,
                                             "page": (annotation.contentView as! CircleAnnotation).page!,
-                                            "color": "#808080",
-                                            ]
+                                            "color": "#808080"]
         socket?.emit(SocketEvents.editAnnotation, with: [annotationDict])
     }
 }
@@ -438,6 +465,12 @@ extension PDFDocView: FABMenuDelegate {
 
 extension Int {
     func clamp(min: Int, _ max: Int) -> Int {
+        return Swift.max(min, Swift.min(max, self))
+    }
+}
+
+extension CGFloat {
+    func clamp(min: CGFloat, _ max: CGFloat) -> CGFloat {
         return Swift.max(min, Swift.min(max, self))
     }
 }
