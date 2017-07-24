@@ -62,7 +62,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     }
 
     func loadPDFFromBundle() {
-        if let pdfUrl = Bundle.main.url(forResource: "input_pdf.pdf", withExtension: nil) {
+        if let pdfUrl = Bundle.main.url(forResource: "NCPocDoc.pdf", withExtension: nil) {
             let documentUrl = pdfUrl as CFURL
             pdfFile = CGPDFDocument(documentUrl)
             numberOfPages = pdfFile.numberOfPages as Int
@@ -116,6 +116,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
 
         removeAllAnnotationsFromPDF()
         addAnnotaionForCurrentPage()
+        self.pdfScrollView.isScrollEnabled = true
     }
 
     func addPageControlView() {
@@ -158,7 +159,7 @@ extension PDFDocView: PDFViewDelegate {
 
     func endZooming() {
         print("END ZOOMING")
-        
+        reloadAnnotaions()
     }
 }
 
@@ -325,6 +326,11 @@ extension PDFDocView {
                                                             "is_deleted":true,
                                                             "i_by":(annotation.contentView as! CircleAnnotation).uuid!,
                                                             "page":1]])
+        let annotationToRemove = annotationArray.filter { ($0.contentView as! CircleAnnotation).uuid == (annotation.contentView as! CircleAnnotation).uuid! }
+            annotationToRemove.first?.removeFromSuperview()
+        if let itemIndex = annotationArray.index(of: annotationToRemove.first!) {
+            annotationArray.remove(at: itemIndex)
+        }
     }
 
     func clearAnnotationsSocketEvent(data: [Any]) {
