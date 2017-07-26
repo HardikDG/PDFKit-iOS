@@ -177,6 +177,7 @@ extension PDFDocView: PDFViewDelegate {
     func endZooming(scale: CGFloat) {
         print("END ZOOMING")
         reloadAnnotaions()
+        pdfScrollView.isScrollEnabled = true
     }
 }
 
@@ -245,7 +246,7 @@ extension PDFDocView {
         emitAddAnnotationEvent(annotation: circle)
         fabMenu.close()
         fabMenu.fabButton?.animate(Motion.rotation(angle: 0))
-
+        pdfScrollView.isScrollEnabled = false
     }
 
 }
@@ -268,7 +269,7 @@ extension PDFDocView {
         resizableCircle.preventsPositionOutsideSuperview = true
         resizableCircle.preventsCustomButton = true
         resizableCircle.setButton(ZDSTICKERVIEW_BUTTON_DEL, image: Icon.close)
-        resizableCircle.hideEditingHandles()
+        resizableCircle.showEditingHandles()
         if page == currentPageNumber {
             pdfScrollView.tiledPDFView.addSubview(resizableCircle)
         }
