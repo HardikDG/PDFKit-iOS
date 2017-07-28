@@ -62,7 +62,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     }
 
     func loadPDFFromBundle() {
-        if let pdfUrl = Bundle.main.url(forResource: "NCPocDoc.pdf", withExtension: nil) {
+        if let pdfUrl = Bundle.main.url(forResource: "example.pdf", withExtension: nil) {
             let documentUrl = pdfUrl as CFURL
             pdfFile = CGPDFDocument(documentUrl)
             numberOfPages = pdfFile.numberOfPages as Int
@@ -347,7 +347,7 @@ extension PDFDocView {
                                                             "documentId":"shared/example.pdf",
                                                             "is_deleted":true,
                                                             "i_by":(annotation.contentView as! CircleAnnotation).uuid!,
-                                                            "page":1]])
+                                                            "page":(annotation.contentView as! CircleAnnotation).page!]])
         let annotationToRemove = annotationArray.filter { ($0.contentView as! CircleAnnotation).uuid == (annotation.contentView as! CircleAnnotation).uuid! }
             annotationToRemove.first?.removeFromSuperview()
         if let itemIndex = annotationArray.index(of: annotationToRemove.first!) {
@@ -377,8 +377,11 @@ extension PDFDocView {
             let uuid = annotationData["uuid"] as! String
             let annotation = annotationArray.filter { ($0.contentView as! CircleAnnotation).uuid == uuid }
             print(annotation)
-            let cx = annotationData["cx"] as! CGFloat
-            let cy = annotationData["cy"] as! CGFloat
+            var cx = annotationData["cx"] as! CGFloat
+            var cy = annotationData["cy"] as! CGFloat
+            let r  = annotationData["r"] as! CGFloat
+            cx = (cx - r) * pdfScrollView.PDFScale
+            cy = (cy - r) * pdfScrollView.PDFScale
             annotation.first?.frame.x = cx
             annotation.first?.frame.y = cy
         }

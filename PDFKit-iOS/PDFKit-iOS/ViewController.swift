@@ -21,7 +21,7 @@ enum SocketEvents {
 class ViewController: UIViewController {
 
     @IBOutlet weak var pdfView: PDFDocView!
-    let socketURL = "https://pdf-annonate.herokuapp.com/"
+    let socketURL = "https://pdf-annotate.herokuapp.com/"
     var socket: SocketIOClient!
 
     override func viewDidLoad() {
