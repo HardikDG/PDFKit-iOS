@@ -128,6 +128,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
                                           width: w,
                                           height: h)
                 self.pdfScrollView.tiledPDFView.addSubview(annotation)
+                (annotation.contentView as! CircleAnnotation).setNeedsDisplay()
             }
         }
 
