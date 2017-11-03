@@ -1,6 +1,0 @@
-framework module Pods_PDFKit_iOS {
-  umbrella header "Pods-PDFKit-iOS-umbrella.h"
-
-  export *
-  module * { export * }
-}
