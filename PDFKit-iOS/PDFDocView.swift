@@ -21,6 +21,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     fileprivate var fabMenu: FABMenu!
     fileprivate var clearAnnotationFABMenuItem: FABMenuItem!
     fileprivate var addSquareFABMenuItem: FABMenuItem!
+    fileprivate var drawingView:ACEDrawingView!
 
     var socket: SocketIOClient?
     var pdfFile: CGPDFDocument!
@@ -58,6 +59,8 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         loadPDFFromBundle()
         prepareFABButton()
         prepareFABMenu()
+        
+        
 //        let uuid = UUID().uuidString
     }
 
@@ -80,19 +83,22 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         } else {
             pdfScrollView = TiledPDFScrollView(frame: self.bounds)
         }
+        
         self.addSubview(pdfScrollView)
         self.pdfScrollView.delaysContentTouches = true
         self.pdfScrollView.isExclusiveTouch = true
         self.pdfScrollView.canCancelContentTouches = true
+       
         let scrollRect = pdfFile.page(at: 1)?.getBoxRect(CGPDFBox.mediaBox)
         self.pdfScrollView.pdfFrameRect = scrollRect?.size
         self.pdfScrollView.frame = CGRect(x: 0, y: 50, width: self.pdfScrollView.frame.size.width, height: self.pdfScrollView.frame.size.height)
         currentPageNumber = 1
         self.pdfScrollView.tiledPDFView.layer.setNeedsLayout()
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizer(tapGesture:)))
-        tapGesture.numberOfTapsRequired = 1
-        tapGesture.numberOfTouchesRequired = 1
-        self.pdfScrollView.addGestureRecognizer(tapGesture)
+
+//        tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizer(tapGesture:)))
+//        tapGesture.numberOfTapsRequired = 1
+//        tapGesture.numberOfTouchesRequired = 1
+//        self.pdfScrollView.addGestureRecognizer(tapGesture)
     }
 
     func tapGestureRecognizer(tapGesture: UITapGestureRecognizer) {
@@ -117,8 +123,14 @@ class PDFDocView: UIView, UIScrollViewDelegate {
             }
         }
 
+        drawingView = ACEDrawingView(frame: self.pdfScrollView.tiledPDFView.frame)
+        drawingView.drawTool = ACEDrawingToolTypeRectagleFill
+        self.pdfScrollView.tiledPDFView.addSubview(drawingView)
+        drawingView.drawTool = ACEDrawingToolTypeDraggableText
+        drawingView.delegate = self
         removeAllAnnotationsFromPDF()
         addAnnotaionForCurrentPage()
+        
     }
 
     func addPageControlView() {
@@ -418,6 +430,16 @@ extension PDFDocView: FABMenuDelegate {
     }
 
     func fabMenu(fabMenu: FABMenu, tappedAt point: CGPoint, isOutside: Bool) {
+    }
+}
+
+extension PDFDocView: ACEDrawingViewDelegate {
+    func drawingView(_ view: ACEDrawingView, willBeginDrawUsing tool: ACEDrawingTool) {
+                self.pdfScrollView.isScrollEnabled = false
+    }
+
+    func drawingView(_ view: ACEDrawingView, didEndDrawUsing tool: ACEDrawingTool) {
+        self.pdfScrollView.isScrollEnabled = true
     }
 }
 

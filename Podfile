@@ -8,5 +8,5 @@ target 'PDFKit-iOS' do
   pod 'SnapKit', '~> 3.2'
   pod 'Material', '~> 2.6'
   pod 'ZDStickerView', '~> 0.1'
-  pod 'Socket.IO-Client-Swift', '~> 10.2'
+  pod 'Socket.IO-Client-Swift', '~> 12.1.2 '
 end
