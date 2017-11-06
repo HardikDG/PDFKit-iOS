@@ -60,8 +60,6 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         prepareFABButton()
         prepareFABMenu()
         
-        
-//        let uuid = UUID().uuidString
     }
 
     func loadPDFFromBundle() {
@@ -256,9 +254,6 @@ extension PDFDocView {
         return resizableCircle
     }
 
-    func addText() {
-    }
-
     func calculateFrameForAnnotation(annotation: ZDStickerView, fromView: TiledPDFScrollView) -> CGRect {
         var frame: CGRect = .zero
         let scale = pdfScrollView.zoomScale
@@ -276,19 +271,21 @@ extension PDFDocView {
     func addAnnotationSocketEvent(data: [Any]) {
 
         print("=======ADD ANNOTATION CALLED=======")
-        if let circleData = data.first as? [String : Any] {
-            let xPos = circleData["cx"] as! CGFloat
-            let yPos = circleData["cy"] as! CGFloat
-            let radius = circleData["r"] as! CGFloat
-            let circleAnnotation = addCircle(xPos: xPos - radius,
-                                             yPos: yPos - radius,
-                                             radius: radius,
-                                             page: circleData["page"] as! Int,
-                                             uuid: circleData["uuid"] as! String)
-//            let circleView = CircleAnnotation(frame: CGRect(x: xPos - 10, y: yPos - 10, w: 20, h: 20))
-//            circleView.backgroundColor = UIColor.clear
-//            pdfScrollView.tiledPDFView.addSubview(circleView)
-            annotationArray.append(circleAnnotation)
+        if let annotationData = data.first as? [String : Any] {
+            if(annotationData["type"] as! String == "fillcircle") {
+                let xPos = annotationData["cx"] as! CGFloat
+                let yPos = annotationData["cy"] as! CGFloat
+                let radius = annotationData["r"] as! CGFloat
+                let circleAnnotation = addCircle(xPos: xPos - radius,
+                                                 yPos: yPos - radius,
+                                                 radius: radius,
+                                                 page: annotationData["page"] as! Int,
+                                                 uuid: annotationData["uuid"] as! String)
+                annotationArray.append(circleAnnotation)
+            } else {
+                drawingView.drawTool = ACEDrawingToolTypeDraggableText
+                drawingView.createNewObjects(CGPoint(x: annotationData["x"] as! CGFloat, y: annotationData["y"] as! CGFloat), withData:["content":annotationData["content"] as! String])
+            }
         }
     }
 

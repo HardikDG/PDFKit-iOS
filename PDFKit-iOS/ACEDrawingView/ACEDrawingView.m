@@ -292,6 +292,27 @@
     }
 }
 
+- (void) createNewObjects:(CGPoint)point withData:(NSDictionary *)data {
+    if(!self.currentTool){
+        self.currentTool = [self toolWithCurrentSettings];
+        self.currentTool.lineWidth = self.lineWidth;
+        self.currentTool.lineColor = self.lineColor;
+        self.currentTool.lineAlpha = self.lineAlpha;
+    }
+    
+    if(self.currentTool){
+        if ([self.currentTool isKindOfClass:[ACEDrawingDraggableTextTool class]]) {
+                NSLog(@"DrawingView:  ---- Creating new object ----");
+                [self.currentTool createObject:point withData:@{@"content": [data valueForKey:@"content"]}];
+                self.draggableTextView = ((ACEDrawingDraggableTextTool *)self.currentTool).labelView;
+                [self.pathArray addObject:self.currentTool];
+                [self finishDrawing];
+            [self.draggableTextView endEditing:true];
+            [self.draggableTextView hideEditingHandles];
+        }
+    }
+}
+
 
 #pragma mark - Touch Methods
 

@@ -89,6 +89,8 @@ typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
 
 - (UIImage *)applyDrawToImage:(UIImage *)baseImage;
 
+- (void) createNewObjects:(CGPoint)point withData:(NSDictionary *)data;
+
 /**
  @discussion Discards the tool stack and renders them to prev_image, making the current state the 'start' state.
  (Can be called before resize to make content more predictable)

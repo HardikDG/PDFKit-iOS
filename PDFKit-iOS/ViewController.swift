@@ -21,7 +21,8 @@ enum SocketEvents {
 class ViewController: UIViewController {
 
     @IBOutlet weak var pdfView: PDFDocView!
-    let socketURL = "http://192.168.1.40:8484/"
+//    let socketURL = "http://192.168.1.40:8484/"
+    let socketURL = "http://pdf-annotate.herokuapp.com/"
     var socket: SocketIOClient!
 
     override func viewDidLoad() {
@@ -61,16 +62,6 @@ class ViewController: UIViewController {
         socket.on(SocketEvents.deleteAnnotation) { data, ack in
             self.pdfView.deleteAnnotationSocketEvent(data: data)
 
-        }
-
-        socket.on("currentAmount") {data, ack in
-            if let cur = data[0] as? Double {
-                self.socket.emitWithAck("canUpdate", cur).timingOut(after: 0) {data in
-                    self.socket.emit("update", ["amount": cur + 2.50])
-                }
-                
-                ack.with("Got your currentAmount", "dude")
-            }
         }
 
         socket.connect()

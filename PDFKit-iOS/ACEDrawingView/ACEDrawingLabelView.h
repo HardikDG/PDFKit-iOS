@@ -32,7 +32,7 @@
 /** 
  * Text Value
  */
-@property (nonatomic, readonly) NSString *textValue;
+@property (nonatomic, strong) NSString *textValue;
 
 /**
  * Text color.

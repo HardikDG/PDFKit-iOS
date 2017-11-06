@@ -61,6 +61,7 @@
 - (void)applyToolState:(ACEDrawingToolState *)state;
 
 - (id)capturePositionObject;
+- (void)createObject:(CGPoint)point withData:(NSDictionary *)content;
 
 @end
 

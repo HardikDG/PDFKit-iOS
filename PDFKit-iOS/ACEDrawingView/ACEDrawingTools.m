@@ -220,6 +220,16 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     _labelView.rotateImage  = self.drawingView.draggableTextRotateImage;
 }
 
+- (void)createObject:(CGPoint)point withData:(NSDictionary *)content
+{
+    [self setInitialPoint:point];
+    NSLog(@"DrawingTool:  ---- Creating new object ----");
+    if(_labelView){
+        [_labelView setTextValue:[content valueForKey:@"content"]];
+    }
+    
+}
+
 - (void)moveFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint
 {
     // Not used for this tool

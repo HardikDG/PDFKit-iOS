@@ -271,6 +271,10 @@ CG_INLINE CGSize CGAffineTransformGetScale(CGAffineTransform t)
     return self.labelTextField.alpha;
 }
 
+- (void) setTextValue:(NSString *)textValue {
+    [self.labelTextField setText:textValue];
+}
+
 - (void)setAttributedPlaceholder:(NSAttributedString *)attributedPlaceholder
 {
     _attributedPlaceholder = attributedPlaceholder;
