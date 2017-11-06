@@ -253,6 +253,20 @@ extension PDFDocView {
         }
         return resizableCircle
     }
+    func addZDStickerObject(Object:UIView, page:Int) -> ZDStickerView {
+        let resizableObject = ZDStickerView(frame: CGRect(x: Object.frame.x, y: Object.frame.y, w:Object.frame.size.width , h:Object.frame.size.height ))
+        resizableObject.contentView = Object
+        resizableObject.stickerViewDelegate = self
+        resizableObject.preventsPositionOutsideSuperview = true
+        resizableObject.preventsCustomButton = true
+        resizableObject.setButton(ZDSTICKERVIEW_BUTTON_DEL, image: Icon.close)
+        resizableObject.hideEditingHandles()
+        if page == currentPageNumber {
+//            Object.removeFromSuperview()
+            drawingView.addSubview(resizableObject)
+        }
+        return resizableObject
+    }
 
     func calculateFrameForAnnotation(annotation: ZDStickerView, fromView: TiledPDFScrollView) -> CGRect {
         var frame: CGRect = .zero
@@ -284,7 +298,9 @@ extension PDFDocView {
                 annotationArray.append(circleAnnotation)
             } else {
                 drawingView.drawTool = ACEDrawingToolTypeDraggableText
-                drawingView.createNewObjects(CGPoint(x: annotationData["x"] as! CGFloat, y: annotationData["y"] as! CGFloat), withData:["content":annotationData["content"] as! String])
+               let textview = drawingView.createNewObjects(CGPoint(x: annotationData["x"] as! CGFloat, y: annotationData["y"] as! CGFloat), withData:["content":annotationData["content"] as! String])
+                let textViewAnnotation = addZDStickerObject(Object: textview!, page: annotationData["page"] as! Int)
+                annotationArray.append(textViewAnnotation)
             }
         }
     }
@@ -302,8 +318,8 @@ extension PDFDocView {
                                                "cy": frame.y + (frame.width)/2,
                                                "r": (frame.width)/2,
                                                "class": "Annotation",
-                                               "uuid": (annotation.contentView as! CircleAnnotation).uuid!,
-                                               "page": (annotation.contentView as! CircleAnnotation).page!,
+                                               "uuid": UUID().uuidString,
+                                               "page": currentPageNumber,
                                                "color": "#808080",
                                                ]
         socket?.emit(SocketEvents.addAnnotation, with: [annotationDict])
@@ -320,10 +336,10 @@ extension PDFDocView {
     }
 
     func emitDeleteAnnotationEvent(annotation: ZDStickerView) {
-        socket?.emit(SocketEvents.deleteAnnotation, with: [["uuid": (annotation.contentView as! CircleAnnotation).uuid!,
+        socket?.emit(SocketEvents.deleteAnnotation, with: [["uuid": UUID().uuidString,
                                                             "documentId":"shared/example.pdf",
                                                             "is_deleted":true,
-                                                            "i_by":(annotation.contentView as! CircleAnnotation).uuid!,
+                                                            "i_by":UUID().uuidString,
                                                             "page":1]])
     }
 
@@ -358,16 +374,25 @@ extension PDFDocView {
 
     func emitEditAnnotationEvent(annotation: ZDStickerView) {
         let frame = calculateFrameForAnnotation(annotation: annotation, fromView: pdfScrollView)
-
-        let annotationDict: [String:Any] = ["type":"fillcircle",
-                                            "cx": frame.x + (frame.width)/2,
-                                            "cy": frame.y + (frame.width)/2,
-                                            "r": (frame.width)/2,
-                                            "class": "Annotation",
-                                            "uuid": (annotation.contentView as! CircleAnnotation).uuid!,
-                                            "page": (annotation.contentView as! CircleAnnotation).page!,
-                                            "color": "#808080",
-                                            ]
+        
+//        let annotationDict: [String:Any] = ["type":"fillcircle",
+//                                            "cx": frame.x + (frame.width)/2,
+//                                            "cy": frame.y + (frame.width)/2,
+//                                            "r": (frame.width)/2,
+//                                            "class": "Annotation",
+//                                            "uuid": UUID().uuidString,
+//                                            "page": currentPageNumber,
+//                                            "color": "#808080",
+//                                            ]
+                let annotationDict: [String:Any] = ["type":"textbox",
+                                                    "x": frame.x,
+                                                    "y": frame.y,
+                                                    "class": "Annotation",
+                                                    "uuid": UUID().uuidString,
+                                                    "page": currentPageNumber,
+                                                    "color": "#808080",
+                                                    "content":(annotation.contentView as! ACEDrawingLabelView).textValue!,
+                                                    ]
         socket?.emit(SocketEvents.editAnnotation, with: [annotationDict])
     }
 }

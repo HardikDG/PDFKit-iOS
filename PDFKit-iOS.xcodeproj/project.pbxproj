@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3924E1F71FAD8944003440C4 /* sticker_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 3924E1E91FAD8944003440C4 /* sticker_close.png */; };
-		3924E1F81FAD8944003440C4 /* sticker_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3924E1EA1FAD8944003440C4 /* sticker_close@2x.png */; };
-		3924E1F91FAD8944003440C4 /* sticker_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3924E1EB1FAD8944003440C4 /* sticker_close@3x.png */; };
-		3924E1FA1FAD8944003440C4 /* sticker_resize.png in Resources */ = {isa = PBXBuildFile; fileRef = 3924E1EC1FAD8944003440C4 /* sticker_resize.png */; };
-		3924E1FB1FAD8944003440C4 /* sticker_resize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3924E1ED1FAD8944003440C4 /* sticker_resize@2x.png */; };
-		3924E1FC1FAD8944003440C4 /* sticker_resize@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3924E1EE1FAD8944003440C4 /* sticker_resize@3x.png */; };
-		3924E1FD1FAD8944003440C4 /* ACEDrawingLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3924E1F01FAD8944003440C4 /* ACEDrawingLabelView.m */; };
-		3924E1FE1FAD8944003440C4 /* ACEDrawingTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 3924E1F21FAD8944003440C4 /* ACEDrawingTools.m */; };
-		3924E1FF1FAD8944003440C4 /* ACEDrawingToolState.m in Sources */ = {isa = PBXBuildFile; fileRef = 3924E1F41FAD8944003440C4 /* ACEDrawingToolState.m */; };
-		3924E2001FAD8944003440C4 /* ACEDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3924E1F61FAD8944003440C4 /* ACEDrawingView.m */; };
+		3906BF881FB044B100BD6A33 /* sticker_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 3906BF7A1FB044B100BD6A33 /* sticker_close.png */; };
+		3906BF891FB044B100BD6A33 /* sticker_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3906BF7B1FB044B100BD6A33 /* sticker_close@2x.png */; };
+		3906BF8A1FB044B100BD6A33 /* sticker_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3906BF7C1FB044B100BD6A33 /* sticker_close@3x.png */; };
+		3906BF8B1FB044B100BD6A33 /* sticker_resize.png in Resources */ = {isa = PBXBuildFile; fileRef = 3906BF7D1FB044B100BD6A33 /* sticker_resize.png */; };
+		3906BF8C1FB044B100BD6A33 /* sticker_resize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3906BF7E1FB044B100BD6A33 /* sticker_resize@2x.png */; };
+		3906BF8D1FB044B100BD6A33 /* sticker_resize@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3906BF7F1FB044B100BD6A33 /* sticker_resize@3x.png */; };
+		3906BF8E1FB044B100BD6A33 /* ACEDrawingLabelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3906BF811FB044B100BD6A33 /* ACEDrawingLabelView.m */; };
+		3906BF8F1FB044B100BD6A33 /* ACEDrawingTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 3906BF831FB044B100BD6A33 /* ACEDrawingTools.m */; };
+		3906BF901FB044B100BD6A33 /* ACEDrawingToolState.m in Sources */ = {isa = PBXBuildFile; fileRef = 3906BF851FB044B100BD6A33 /* ACEDrawingToolState.m */; };
+		3906BF911FB044B100BD6A33 /* ACEDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3906BF871FB044B100BD6A33 /* ACEDrawingView.m */; };
 		602104B91F14F706001F821A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602104B81F14F706001F821A /* AppDelegate.swift */; };
 		602104BB1F14F706001F821A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602104BA1F14F706001F821A /* ViewController.swift */; };
 		602104BE1F14F706001F821A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 602104BC1F14F706001F821A /* Main.storyboard */; };
@@ -35,20 +35,20 @@
 
 /* Begin PBXFileReference section */
 		2F03FF245906972A9370D20C /* Pods_PDFKit_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PDFKit_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3924E1E91FAD8944003440C4 /* sticker_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sticker_close.png; sourceTree = "<group>"; };
-		3924E1EA1FAD8944003440C4 /* sticker_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_close@2x.png"; sourceTree = "<group>"; };
-		3924E1EB1FAD8944003440C4 /* sticker_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_close@3x.png"; sourceTree = "<group>"; };
-		3924E1EC1FAD8944003440C4 /* sticker_resize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sticker_resize.png; sourceTree = "<group>"; };
-		3924E1ED1FAD8944003440C4 /* sticker_resize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_resize@2x.png"; sourceTree = "<group>"; };
-		3924E1EE1FAD8944003440C4 /* sticker_resize@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_resize@3x.png"; sourceTree = "<group>"; };
-		3924E1EF1FAD8944003440C4 /* ACEDrawingLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingLabelView.h; sourceTree = "<group>"; };
-		3924E1F01FAD8944003440C4 /* ACEDrawingLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingLabelView.m; sourceTree = "<group>"; };
-		3924E1F11FAD8944003440C4 /* ACEDrawingTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingTools.h; sourceTree = "<group>"; };
-		3924E1F21FAD8944003440C4 /* ACEDrawingTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingTools.m; sourceTree = "<group>"; };
-		3924E1F31FAD8944003440C4 /* ACEDrawingToolState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingToolState.h; sourceTree = "<group>"; };
-		3924E1F41FAD8944003440C4 /* ACEDrawingToolState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingToolState.m; sourceTree = "<group>"; };
-		3924E1F51FAD8944003440C4 /* ACEDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingView.h; sourceTree = "<group>"; };
-		3924E1F61FAD8944003440C4 /* ACEDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingView.m; sourceTree = "<group>"; };
+		3906BF7A1FB044B100BD6A33 /* sticker_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sticker_close.png; sourceTree = "<group>"; };
+		3906BF7B1FB044B100BD6A33 /* sticker_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_close@2x.png"; sourceTree = "<group>"; };
+		3906BF7C1FB044B100BD6A33 /* sticker_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_close@3x.png"; sourceTree = "<group>"; };
+		3906BF7D1FB044B100BD6A33 /* sticker_resize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sticker_resize.png; sourceTree = "<group>"; };
+		3906BF7E1FB044B100BD6A33 /* sticker_resize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_resize@2x.png"; sourceTree = "<group>"; };
+		3906BF7F1FB044B100BD6A33 /* sticker_resize@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sticker_resize@3x.png"; sourceTree = "<group>"; };
+		3906BF801FB044B100BD6A33 /* ACEDrawingLabelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingLabelView.h; sourceTree = "<group>"; };
+		3906BF811FB044B100BD6A33 /* ACEDrawingLabelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingLabelView.m; sourceTree = "<group>"; };
+		3906BF821FB044B100BD6A33 /* ACEDrawingTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingTools.h; sourceTree = "<group>"; };
+		3906BF831FB044B100BD6A33 /* ACEDrawingTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingTools.m; sourceTree = "<group>"; };
+		3906BF841FB044B100BD6A33 /* ACEDrawingToolState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingToolState.h; sourceTree = "<group>"; };
+		3906BF851FB044B100BD6A33 /* ACEDrawingToolState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingToolState.m; sourceTree = "<group>"; };
+		3906BF861FB044B100BD6A33 /* ACEDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACEDrawingView.h; sourceTree = "<group>"; };
+		3906BF871FB044B100BD6A33 /* ACEDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACEDrawingView.m; sourceTree = "<group>"; };
 		3924E2031FAD8ACB003440C4 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		4987EF7EA2F77204A15390A3 /* Pods-PDFKit-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PDFKit-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PDFKit-iOS/Pods-PDFKit-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		602104B51F14F706001F821A /* PDFKit-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PDFKit-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,31 +89,31 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3924E1E71FAD8944003440C4 /* ACEDrawingView */ = {
+		3906BF781FB044B100BD6A33 /* ACEDrawingView */ = {
 			isa = PBXGroup;
 			children = (
-				3924E1E81FAD8944003440C4 /* ACEDraggableText */,
-				3924E1EF1FAD8944003440C4 /* ACEDrawingLabelView.h */,
-				3924E1F01FAD8944003440C4 /* ACEDrawingLabelView.m */,
-				3924E1F11FAD8944003440C4 /* ACEDrawingTools.h */,
-				3924E1F21FAD8944003440C4 /* ACEDrawingTools.m */,
-				3924E1F31FAD8944003440C4 /* ACEDrawingToolState.h */,
-				3924E1F41FAD8944003440C4 /* ACEDrawingToolState.m */,
-				3924E1F51FAD8944003440C4 /* ACEDrawingView.h */,
-				3924E1F61FAD8944003440C4 /* ACEDrawingView.m */,
+				3906BF791FB044B100BD6A33 /* ACEDraggableText */,
+				3906BF801FB044B100BD6A33 /* ACEDrawingLabelView.h */,
+				3906BF811FB044B100BD6A33 /* ACEDrawingLabelView.m */,
+				3906BF821FB044B100BD6A33 /* ACEDrawingTools.h */,
+				3906BF831FB044B100BD6A33 /* ACEDrawingTools.m */,
+				3906BF841FB044B100BD6A33 /* ACEDrawingToolState.h */,
+				3906BF851FB044B100BD6A33 /* ACEDrawingToolState.m */,
+				3906BF861FB044B100BD6A33 /* ACEDrawingView.h */,
+				3906BF871FB044B100BD6A33 /* ACEDrawingView.m */,
 			);
 			path = ACEDrawingView;
 			sourceTree = "<group>";
 		};
-		3924E1E81FAD8944003440C4 /* ACEDraggableText */ = {
+		3906BF791FB044B100BD6A33 /* ACEDraggableText */ = {
 			isa = PBXGroup;
 			children = (
-				3924E1E91FAD8944003440C4 /* sticker_close.png */,
-				3924E1EA1FAD8944003440C4 /* sticker_close@2x.png */,
-				3924E1EB1FAD8944003440C4 /* sticker_close@3x.png */,
-				3924E1EC1FAD8944003440C4 /* sticker_resize.png */,
-				3924E1ED1FAD8944003440C4 /* sticker_resize@2x.png */,
-				3924E1EE1FAD8944003440C4 /* sticker_resize@3x.png */,
+				3906BF7A1FB044B100BD6A33 /* sticker_close.png */,
+				3906BF7B1FB044B100BD6A33 /* sticker_close@2x.png */,
+				3906BF7C1FB044B100BD6A33 /* sticker_close@3x.png */,
+				3906BF7D1FB044B100BD6A33 /* sticker_resize.png */,
+				3906BF7E1FB044B100BD6A33 /* sticker_resize@2x.png */,
+				3906BF7F1FB044B100BD6A33 /* sticker_resize@3x.png */,
 			);
 			path = ACEDraggableText;
 			sourceTree = "<group>";
@@ -139,7 +139,7 @@
 		602104B71F14F706001F821A /* PDFKit-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				3924E1E71FAD8944003440C4 /* ACEDrawingView */,
+				3906BF781FB044B100BD6A33 /* ACEDrawingView */,
 				60622C991F14FD2900B5348B /* Resources */,
 				60622C921F14F81400B5348B /* PDFViewer */,
 				602104B81F14F706001F821A /* AppDelegate.swift */,
@@ -248,17 +248,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				602104C31F14F706001F821A /* LaunchScreen.storyboard in Resources */,
-				3924E1F91FAD8944003440C4 /* sticker_close@3x.png in Resources */,
+				3906BF8A1FB044B100BD6A33 /* sticker_close@3x.png in Resources */,
 				602966CA1F2083DA002F8E9D /* gal-trace.pdf in Resources */,
-				3924E1FA1FAD8944003440C4 /* sticker_resize.png in Resources */,
+				3906BF8B1FB044B100BD6A33 /* sticker_resize.png in Resources */,
 				60CCEFA71F1DD62800598BE4 /* input_pdf.pdf in Resources */,
-				3924E1F81FAD8944003440C4 /* sticker_close@2x.png in Resources */,
+				3906BF891FB044B100BD6A33 /* sticker_close@2x.png in Resources */,
 				602104C01F14F706001F821A /* Assets.xcassets in Resources */,
-				3924E1FB1FAD8944003440C4 /* sticker_resize@2x.png in Resources */,
+				3906BF8C1FB044B100BD6A33 /* sticker_resize@2x.png in Resources */,
 				60845E791F1CA4860021387E /* NCPocDoc.pdf in Resources */,
-				3924E1FC1FAD8944003440C4 /* sticker_resize@3x.png in Resources */,
+				3906BF8D1FB044B100BD6A33 /* sticker_resize@3x.png in Resources */,
 				602104BE1F14F706001F821A /* Main.storyboard in Resources */,
-				3924E1F71FAD8944003440C4 /* sticker_close.png in Resources */,
+				3906BF881FB044B100BD6A33 /* sticker_close.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,13 +333,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3924E1FD1FAD8944003440C4 /* ACEDrawingLabelView.m in Sources */,
+				3906BF8E1FB044B100BD6A33 /* ACEDrawingLabelView.m in Sources */,
 				60622C981F14FCEC00B5348B /* TiledPDFView.swift in Sources */,
-				3924E1FF1FAD8944003440C4 /* ACEDrawingToolState.m in Sources */,
-				3924E1FE1FAD8944003440C4 /* ACEDrawingTools.m in Sources */,
+				3906BF901FB044B100BD6A33 /* ACEDrawingToolState.m in Sources */,
+				3906BF8F1FB044B100BD6A33 /* ACEDrawingTools.m in Sources */,
 				D5D8EA8D1F1D08DC005812E9 /* CircleAnnotation.swift in Sources */,
 				602104BB1F14F706001F821A /* ViewController.swift in Sources */,
-				3924E2001FAD8944003440C4 /* ACEDrawingView.m in Sources */,
+				3906BF911FB044B100BD6A33 /* ACEDrawingView.m in Sources */,
 				60845E7B1F1CE30A0021387E /* PDFAnnotation.swift in Sources */,
 				60335EC41F18F19800886F2C /* PDFDocView.swift in Sources */,
 				60622C971F14FCEC00B5348B /* TiledPDFScrollView.swift in Sources */,

@@ -59,6 +59,7 @@ typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
 @property (nonatomic, assign) CGFloat lineWidth;
 @property (nonatomic, assign) CGFloat lineAlpha;
 @property (nonatomic, assign) CGFloat edgeSnapThreshold;
+@property (nonatomic, assign) NSString *drawType;
 @property (nonatomic, assign) ACEDrawingMode drawMode;
 
 @property (nonatomic, strong) NSString *draggableTextFontName;
@@ -89,7 +90,7 @@ typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
 
 - (UIImage *)applyDrawToImage:(UIImage *)baseImage;
 
-- (void) createNewObjects:(CGPoint)point withData:(NSDictionary *)data;
+- (UIView *) createNewObjects:(CGPoint)point withData:(NSDictionary *)data;
 
 /**
  @discussion Discards the tool stack and renders them to prev_image, making the current state the 'start' state.

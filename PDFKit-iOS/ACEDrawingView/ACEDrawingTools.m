@@ -209,7 +209,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 
 - (void)setInitialPoint:(CGPoint)firstPoint
 {
-    CGRect frame = CGRectMake(firstPoint.x, firstPoint.y, 100, 100);
+    CGRect frame = CGRectMake(firstPoint.x, firstPoint.y, 50, 100);
     
     _labelView = [[ACEDrawingLabelView alloc] initWithFrame:frame];
     _labelView.delegate     = self.drawingView;
@@ -227,7 +227,6 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     if(_labelView){
         [_labelView setTextValue:[content valueForKey:@"content"]];
     }
-    
 }
 
 - (void)moveFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint
@@ -243,7 +242,7 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
 }
 
 - (void)applyToolState:(ACEDrawingToolState *)state
-{    
+{
     if (state.hasPositionObject) {
         [self applyTransform:state.positionObject];
     }

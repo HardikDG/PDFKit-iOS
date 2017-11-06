@@ -153,8 +153,8 @@ CG_INLINE CGSize CGAffineTransformGetScale(CGAffineTransform t)
         self.rotateButton.userInteractionEnabled = YES;
         [self addSubview:self.rotateButton];
         
-        UIPanGestureRecognizer *moveGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveGesture:)];
-        [self addGestureRecognizer:moveGesture];
+//        UIPanGestureRecognizer *moveGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveGesture:)];
+//        [self addGestureRecognizer:moveGesture];
         
         UITapGestureRecognizer *singleTapShowHide = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(contentTapped:)];
         [self addGestureRecognizer:singleTapShowHide];
@@ -165,7 +165,7 @@ CG_INLINE CGSize CGAffineTransformGetScale(CGAffineTransform t)
         UIPanGestureRecognizer *panRotateGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(rotateViewPanGesture:)];
         [self.rotateButton addGestureRecognizer:panRotateGesture];
         
-        [moveGesture requireGestureRecognizerToFail:closeTap];
+//        [moveGesture requireGestureRecognizerToFail:closeTap];
         
         [self setEnableMoveRestriction:NO];
         [self setEnableClose:YES];

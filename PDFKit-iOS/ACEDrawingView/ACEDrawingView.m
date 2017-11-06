@@ -292,7 +292,7 @@
     }
 }
 
-- (void) createNewObjects:(CGPoint)point withData:(NSDictionary *)data {
+- (UIView *) createNewObjects:(CGPoint)point withData:(NSDictionary *)data {
     if(!self.currentTool){
         self.currentTool = [self toolWithCurrentSettings];
         self.currentTool.lineWidth = self.lineWidth;
@@ -308,8 +308,14 @@
                 [self.pathArray addObject:self.currentTool];
                 [self finishDrawing];
             [self.draggableTextView endEditing:true];
+            [self.draggableTextView setUserInteractionEnabled:false];
             [self.draggableTextView hideEditingHandles];
         }
+        NSLog(@"View: %@",self.draggableTextView);
+        
+        return self.draggableTextView;
+    } else {
+        return [[UIView alloc]init];
     }
 }
 
