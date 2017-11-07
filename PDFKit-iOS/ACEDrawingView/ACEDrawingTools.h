@@ -126,3 +126,18 @@
 
 @interface ACEDrawingArrowTool : NSObject<ACEDrawingTool>
 @end
+
+#pragma mark -
+@interface ACEDrawingCheckMarkTool: NSObject<ACEDrawingTool>
+
+@property (nonatomic, weak) ACEDrawingView *drawingView;
+@property (nonatomic, readonly) UIImageView *imgCheckmark;
+
+@end
+
+#pragma mark -
+@interface ACEDrawingSignatureTool: NSObject<ACEDrawingTool>
+
+@property (nonatomic, weak) ACEDrawingView *drawingView;
+@property (nonatomic, readonly) UIImageView *imgSignature;
+@end

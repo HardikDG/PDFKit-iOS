@@ -39,6 +39,8 @@ typedef enum {
     ACEDrawingToolTypeEraser,
     ACEDrawingToolTypeDraggableText,
     ACEDrawingToolTypeCustom,
+    ACEDrawingToolCheckmark,
+    ACEDrawingToolSignature,
 } ACEDrawingToolType;
 
 typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
@@ -65,6 +67,7 @@ typedef NS_ENUM(NSUInteger, ACEDrawingMode) {
 @property (nonatomic, strong) NSString *draggableTextFontName;
 @property (nonatomic, strong) UIImage *draggableTextCloseImage;
 @property (nonatomic, strong) UIImage *draggableTextRotateImage;
+@property (nonatomic, strong) ACEDrawingLabelView *draggableTextView;
 
 // get the current drawing
 @property (nonatomic, strong, readonly) UIImage *image;

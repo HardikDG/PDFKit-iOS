@@ -52,7 +52,6 @@
 @property (nonatomic, strong) id<ACEDrawingTool> currentTool;
 @property (nonatomic, strong) UIImage *cacheImage;
 
-@property (nonatomic, strong) ACEDrawingLabelView *draggableTextView;
 @end
 
 #pragma mark -
@@ -289,6 +288,15 @@
         {
             return self.customDrawTool;
         }
+        case ACEDrawingToolCheckmark: {
+            ACEDrawingCheckMarkTool *tool = ACE_AUTORELEASE([ACEDrawingCheckMarkTool new]);
+            tool.drawingView = self;
+            return tool;
+        } case ACEDrawingToolSignature: {
+            ACEDrawingSignatureTool *tool = ACE_AUTORELEASE([ACEDrawingSignatureTool new]);
+            tool.drawingView = self;
+            return tool;
+        }
     }
 }
 
@@ -413,6 +421,7 @@
             [self finishDrawing];
         }
     } else {
+        
         [self finishDrawing];
     }
 }

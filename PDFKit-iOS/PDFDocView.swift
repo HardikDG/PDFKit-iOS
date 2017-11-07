@@ -12,6 +12,20 @@ import ZDStickerView
 import SocketIO
 
 class PDFDocView: UIView, UIScrollViewDelegate {
+    
+    enum AnnotationType {
+        static let textview = "textview"
+        static let checkmark = "checkmark"
+        static let signature = "signature"
+        static let circle = "circle"
+        static let fillCircle = "fillcircle"
+        static let line = "line"
+    }
+    
+    enum stype {
+        case textview
+        case line
+    }
 
     fileprivate let fabMenuSize = CGSize(width: 40, height: 40)
     fileprivate let bottomInset: CGFloat = 16
@@ -43,6 +57,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
     var currentPageLabel: UILabel!
     var annotationArray: [ZDStickerView] = []
     var tapGesture: UITapGestureRecognizer!
+    var currentAnnotation:[String : Any] = [:]
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -93,18 +108,6 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         currentPageNumber = 1
         self.pdfScrollView.tiledPDFView.layer.setNeedsLayout()
 
-//        tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureRecognizer(tapGesture:)))
-//        tapGesture.numberOfTapsRequired = 1
-//        tapGesture.numberOfTouchesRequired = 1
-//        self.pdfScrollView.addGestureRecognizer(tapGesture)
-    }
-
-    func tapGestureRecognizer(tapGesture: UITapGestureRecognizer) {
-        print("DID Tap ON PDF")
-        self.pdfScrollView.isScrollEnabled = true
-        annotationArray.forEach { (annotation) in
-            annotation.hideEditingHandles()
-        }
     }
 
     func reloadAnnotaions() {
@@ -114,8 +117,8 @@ class PDFDocView: UIView, UIScrollViewDelegate {
             }
         }
 
-        func addAnnotaionForCurrentPage() {
-            let annotations = annotationArray.filter { ($0.contentView as! CircleAnnotation).page == currentPageNumber }
+    func addAnnotaionForCurrentPage() {
+        let annotations = annotationArray.filter { ($0.contentView as! CircleAnnotation).page == currentPageNumber }
             annotations.forEach { (annotation) in
                 self.pdfScrollView.tiledPDFView.addSubview(annotation)
             }
@@ -124,7 +127,7 @@ class PDFDocView: UIView, UIScrollViewDelegate {
         drawingView = ACEDrawingView(frame: self.pdfScrollView.tiledPDFView.frame)
         drawingView.drawTool = ACEDrawingToolTypeRectagleFill
         self.pdfScrollView.tiledPDFView.addSubview(drawingView)
-        drawingView.drawTool = ACEDrawingToolTypeDraggableText
+        drawingView.drawTool = ACEDrawingToolCheckmark
         drawingView.delegate = self
         removeAllAnnotationsFromPDF()
         addAnnotaionForCurrentPage()
@@ -253,19 +256,21 @@ extension PDFDocView {
         }
         return resizableCircle
     }
-    func addZDStickerObject(Object:UIView, page:Int) -> ZDStickerView {
-        let resizableObject = ZDStickerView(frame: CGRect(x: Object.frame.x, y: Object.frame.y, w:Object.frame.size.width , h:Object.frame.size.height ))
-        resizableObject.contentView = Object
-        resizableObject.stickerViewDelegate = self
-        resizableObject.preventsPositionOutsideSuperview = true
-        resizableObject.preventsCustomButton = true
-        resizableObject.setButton(ZDSTICKERVIEW_BUTTON_DEL, image: Icon.close)
-        resizableObject.hideEditingHandles()
+    
+    func addZDStickerObject(Object:UIView, page:Int,type:String) -> ZDStickerView {
+        let stickerObject = ZDStickerView(frame: CGRect(x: Object.frame.x, y: Object.frame.y, w:Object.frame.size.width , h:Object.frame.size.height ))
+        stickerObject.contentView = Object
+        stickerObject.stickerViewDelegate = self
+        stickerObject.annotationType = type
+        stickerObject.preventsPositionOutsideSuperview = true
+        stickerObject.preventsCustomButton = true
+        stickerObject.setButton(ZDSTICKERVIEW_BUTTON_DEL, image: Icon.close)
+        stickerObject.hideEditingHandles()
         if page == currentPageNumber {
-//            Object.removeFromSuperview()
-            drawingView.addSubview(resizableObject)
+            drawingView.addSubview(stickerObject)
         }
-        return resizableObject
+        currentAnnotation.removeAll()
+        return stickerObject
     }
 
     func calculateFrameForAnnotation(annotation: ZDStickerView, fromView: TiledPDFScrollView) -> CGRect {
@@ -286,7 +291,9 @@ extension PDFDocView {
 
         print("=======ADD ANNOTATION CALLED=======")
         if let annotationData = data.first as? [String : Any] {
-            if(annotationData["type"] as! String == "fillcircle") {
+            currentAnnotation = annotationData;
+            let type = annotationData["type"] as! String
+            if(type == AnnotationType.fillCircle) {
                 let xPos = annotationData["cx"] as! CGFloat
                 let yPos = annotationData["cy"] as! CGFloat
                 let radius = annotationData["r"] as! CGFloat
@@ -296,33 +303,51 @@ extension PDFDocView {
                                                  page: annotationData["page"] as! Int,
                                                  uuid: annotationData["uuid"] as! String)
                 annotationArray.append(circleAnnotation)
-            } else {
+            } else if(type == AnnotationType.textview){
                 drawingView.drawTool = ACEDrawingToolTypeDraggableText
-               let textview = drawingView.createNewObjects(CGPoint(x: annotationData["x"] as! CGFloat, y: annotationData["y"] as! CGFloat), withData:["content":annotationData["content"] as! String])
-                let textViewAnnotation = addZDStickerObject(Object: textview!, page: annotationData["page"] as! Int)
+               let annoteTextview = drawingView.createNewObjects(CGPoint(x: annotationData["x"] as! CGFloat,
+                                                                         y: annotationData["y"] as! CGFloat), withData:["content":annotationData["content"] as! String])
+                let textViewAnnotation = addZDStickerObject(Object: annoteTextview!, page: currentAnnotation["page"] as! Int,type: AnnotationType.textview)
                 annotationArray.append(textViewAnnotation)
+            } else if(type == AnnotationType.circle) {
+                
+            } else {
+                
             }
         }
     }
 
     func emitAddAnnotationEvent(annotation: ZDStickerView) {
-
-//        let circleView = CircleAnnotation(frame: CGRect(x: 92 - 10, y: 195 - 10, w: 20, h: 20))
-//        circleView.backgroundColor = UIColor.clear
-//        pdfScrollView.tiledPDFView.addSubview(circleView)
         
         let frame = calculateFrameForAnnotation(annotation: annotation, fromView: pdfScrollView)
         print(frame)
-        let annotationDict: [String:Any] = ["type":"fillcircle",
-                                               "cx": frame.x + (frame.width)/2,
-                                               "cy": frame.y + (frame.width)/2,
-                                               "r": (frame.width)/2,
-                                               "class": "Annotation",
-                                               "uuid": UUID().uuidString,
-                                               "page": currentPageNumber,
-                                               "color": "#808080",
-                                               ]
-        socket?.emit(SocketEvents.addAnnotation, with: [annotationDict])
+        
+        let annoteType = annotation.annotationType
+
+        if annoteType == AnnotationType.checkmark {
+            
+        } else if annoteType == AnnotationType.circle {
+            
+            let annotationDict: [String:Any] = ["type":annotation.annotationType,
+                                                "cx": frame.x + (frame.width)/2,
+                                                "cy": frame.y + (frame.width)/2,
+                                                "r": (frame.width)/2,
+                                                "class": "Annotation",
+                                                "uuid": UUID().uuidString,
+                                                "page": currentPageNumber,
+                                                "color": "#808080"]
+            
+            socket?.emit(SocketEvents.addAnnotation, with: [annotationDict])
+        } else if annoteType == AnnotationType.fillCircle {
+            
+        } else if annoteType == AnnotationType.line {
+            
+        } else if annoteType == AnnotationType.signature {
+            
+        } else if annoteType == AnnotationType.textview {
+            
+        }
+        
     }
 
     func deleteAnnotationSocketEvent(data: [Any]) {
@@ -362,6 +387,32 @@ extension PDFDocView {
     func editAnnotationSocketEvent(data: [Any]) {
         print("=======EDIT ANNOTATION CALLED=======")
         if let annotationData = data.first as? [String : Any] {
+            currentAnnotation = annotationData;
+            let type = annotationData["type"] as! String
+            if type == AnnotationType.checkmark {
+                
+            } else if type == AnnotationType.circle {
+                
+                let annotationDict: [String:Any] = ["type":type,
+                                                    "cx": frame.x + (frame.width)/2,
+                                                    "cy": frame.y + (frame.width)/2,
+                                                    "r": (frame.width)/2,
+                                                    "class": "Annotation",
+                                                    "uuid": UUID().uuidString,
+                                                    "page": currentPageNumber,
+                                                    "color": "#808080"]
+                
+                socket?.emit(SocketEvents.addAnnotation, with: [annotationDict])
+            } else if type == AnnotationType.fillCircle {
+                
+            } else if type == AnnotationType.line {
+                
+            } else if type == AnnotationType.signature {
+                
+            } else if type == AnnotationType.textview {
+                
+            }
+            
             let uuid = annotationData["uuid"] as! String
             let annotation = annotationArray.filter { ($0.contentView as! CircleAnnotation).uuid == uuid }
             print(annotation)
@@ -375,29 +426,41 @@ extension PDFDocView {
     func emitEditAnnotationEvent(annotation: ZDStickerView) {
         let frame = calculateFrameForAnnotation(annotation: annotation, fromView: pdfScrollView)
         
-//        let annotationDict: [String:Any] = ["type":"fillcircle",
-//                                            "cx": frame.x + (frame.width)/2,
-//                                            "cy": frame.y + (frame.width)/2,
-//                                            "r": (frame.width)/2,
-//                                            "class": "Annotation",
-//                                            "uuid": UUID().uuidString,
-//                                            "page": currentPageNumber,
-//                                            "color": "#808080",
-//                                            ]
-                let annotationDict: [String:Any] = ["type":"textbox",
-                                                    "x": frame.x,
-                                                    "y": frame.y,
-                                                    "class": "Annotation",
-                                                    "uuid": UUID().uuidString,
-                                                    "page": currentPageNumber,
-                                                    "color": "#808080",
-                                                    "content":(annotation.contentView as! ACEDrawingLabelView).textValue!,
-                                                    ]
-        socket?.emit(SocketEvents.editAnnotation, with: [annotationDict])
+        let annoteType = annotation.annotationType
+        
+        if annoteType == AnnotationType.checkmark {
+            
+        } else if annoteType == AnnotationType.circle {
+            
+                    let annotationDict: [String:Any] = ["type":AnnotationType.fillCircle,
+                                                        "cx": frame.x + (frame.width)/2,
+                                                        "cy": frame.y + (frame.width)/2,
+                                                        "r": (frame.width)/2,
+                                                        "class": "Annotation",
+                                                        "uuid": UUID().uuidString,
+                                                        "page": currentPageNumber,
+                                                        "color": "#808080"]
+            
+        } else if annoteType == AnnotationType.fillCircle {
+            
+        } else if annoteType == AnnotationType.line {
+            
+        } else if annoteType == AnnotationType.signature {
+            
+        } else if annoteType == AnnotationType.textview {
+            
+            let annotationDict: [String:Any] = ["type":AnnotationType.textview,
+                                                "x": frame.x,
+                                                "y": frame.y,
+                                                "class": "Annotation",
+                                                "uuid": UUID().uuidString,
+                                                "page": currentPageNumber,
+                                                "color": "#808080","content":(annotation.contentView as! ACEDrawingLabelView).textValue!]
+            
+            socket?.emit(SocketEvents.editAnnotation, with: [annotationDict])
+        }
     }
 }
-
-
 
 extension PDFDocView: ZDStickerViewDelegate {
 
@@ -448,7 +511,7 @@ extension PDFDocView: FABMenuDelegate {
     }
 
     func fabMenuDidClose(fabMenu: FABMenu) {
-        print("fabMenuDidClose")
+        print("fabMenuDidClose ")
     }
 
     func fabMenu(fabMenu: FABMenu, tappedAt point: CGPoint, isOutside: Bool) {
@@ -457,11 +520,33 @@ extension PDFDocView: FABMenuDelegate {
 
 extension PDFDocView: ACEDrawingViewDelegate {
     func drawingView(_ view: ACEDrawingView, willBeginDrawUsing tool: ACEDrawingTool) {
-                self.pdfScrollView.isScrollEnabled = false
+        self.pdfScrollView.isScrollEnabled = false
+        
+        annotationArray.forEach { (annotation) in
+            annotation.hideEditingHandles()
+        }
     }
 
     func drawingView(_ view: ACEDrawingView, didEndDrawUsing tool: ACEDrawingTool) {
         self.pdfScrollView.isScrollEnabled = true
+
+        if(tool .isKind(of: ACEDrawingDraggableTextTool.self) && drawingView.draggableTextView != nil) {
+            if(drawingView.draggableTextView.textValue.length > 0 && currentAnnotation.isEmpty){
+                let textViewAnnotation = addZDStickerObject(Object: drawingView.draggableTextView, page: currentPageNumber,type: AnnotationType.textview)
+                annotationArray.append(textViewAnnotation)
+                drawingView.draggableTextView.isUserInteractionEnabled = false
+                
+                emitAddAnnotationEvent(annotation: textViewAnnotation)
+            }
+        }
+        
+        if (tool .isKind(of: ACEDrawingCheckMarkTool.self)) {
+            let img = (tool as! ACEDrawingCheckMarkTool).imgCheckmark
+            let checkmarkAnnotation = addZDStickerObject(Object: img!, page: currentPageNumber,type: AnnotationType.checkmark)
+            annotationArray.append(checkmarkAnnotation)
+            
+            emitAddAnnotationEvent(annotation: checkmarkAnnotation)
+        }
     }
 }
 

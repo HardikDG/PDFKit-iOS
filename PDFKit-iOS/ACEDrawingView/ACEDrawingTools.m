@@ -32,6 +32,8 @@
 #import <AppKit/AppKit.h>
 #endif
 
+#define CHECKMARK_SIZE 50
+
 CGPoint midPoint(CGPoint p1, CGPoint p2)
 {
     return CGPointMake((p1.x + p2.x) * 0.5, (p1.y + p2.y) * 0.5);
@@ -544,6 +546,103 @@ CGPoint midPoint(CGPoint p1, CGPoint p2)
     CGFloat y = distance * sinf(angle);
     
     return CGPointMake(x, y);
+}
+
+- (void)dealloc
+{
+    self.lineColor = nil;
+#if !ACE_HAS_ARC
+    [super dealloc];
+#endif
+}
+
+@end
+
+#pragma mark - ACEDrawingCheckMarkTool
+
+@interface ACEDrawingCheckMarkTool ()
+@property (nonatomic, assign) CGPoint firstPoint;
+@property (nonatomic, assign) CGPoint lastPoint;
+@property (nonatomic, unsafe_unretained) IBOutlet UIImageView *baseImageView;
+
+@end
+
+#pragma mark -
+
+@implementation ACEDrawingCheckMarkTool
+
+@synthesize lineColor = _lineColor;
+@synthesize lineAlpha = _lineAlpha;
+@synthesize lineWidth = _lineWidth;
+@synthesize drawingView = _drawingView;
+@synthesize imgCheckmark = _imgCheckmark;
+
+- (void)setInitialPoint:(CGPoint)firstPoint
+{
+    _imgCheckmark = [[UIImageView alloc] initWithFrame:CGRectMake(firstPoint.x, firstPoint.y,CHECKMARK_SIZE,CHECKMARK_SIZE)];
+    [_imgCheckmark setImage:[UIImage imageNamed:@"img_checkmark.png"]];
+}
+
+- (void)moveFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint
+{
+//    self.lastPoint = endPoint;
+}
+
+- (void)draw
+{
+    if (_imgCheckmark != nil && _imgCheckmark.superview == nil) {
+        [self.drawingView addSubview:_imgCheckmark];
+    }
+}
+
+- (ACEDrawingToolState *)captureToolState
+{
+    return [ACEDrawingToolState stateForTool:self];
+}
+
+- (void)dealloc
+{
+    self.lineColor = nil;
+#if !ACE_HAS_ARC
+    [super dealloc];
+#endif
+}
+
+@end
+
+#pragma mark - ACEDrawingSignatureTool
+
+@interface ACEDrawingSignatureTool ()
+@property (nonatomic, assign) CGPoint firstPoint;
+@property (nonatomic, assign) CGPoint lastPoint;
+@end
+
+#pragma mark -
+
+@implementation ACEDrawingSignatureTool
+
+@synthesize lineColor = _lineColor;
+@synthesize lineAlpha = _lineAlpha;
+@synthesize lineWidth = _lineWidth;
+
+- (void)setInitialPoint:(CGPoint)firstPoint
+{
+    self.firstPoint = firstPoint;
+}
+
+- (void)moveFromPoint:(CGPoint)startPoint toPoint:(CGPoint)endPoint
+{
+    self.lastPoint = endPoint;
+}
+
+- (void)draw
+{
+    
+}
+
+- (ACEDrawingToolState *)captureToolState
+{
+    return [ACEDrawingToolState stateForTool:self];
 }
 
 - (void)dealloc
